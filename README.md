@@ -1,3 +1,2 @@
 # bancoLavoroD4
-Here we put all of the files we wrote to build the 4th document.
-You can find the files into the master branch
+In questo repository si trovano tutti i file scritti per il documento di progetto D4. Ques'ultimi si trovano all'interno del branch master
