@@ -7,6 +7,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userModel = require("./userModel");
 const filmModel = require("./filmModel");
+const serieModel = require("./serieModel");
 mongoose.set('strictQuery', false);
 const app = express();
 const mongoAtlasUri = "mongodb+srv://moViewerNet:FiletMignon546@clusterprinc.qjxmkkq.mongodb.net/?retryWrites=true&w=majority";
@@ -46,6 +47,18 @@ const film = new filmModel({ titolo: 'Il signore degli anelli', regista: 'Peter 
 film.save(function (err) {
     if(err) return handleError(err);
     console.log("Film added");
+});
+
+
+
+//Aggiunta di una serie al database
+const serie = new serieModel({ titolo: 'Breaking Bad', regista: 'Vince Gilligan', etaConsigliata: 16,
+                             immagineCopertina: 'https://pop.proddigital.com.br/wp-content/uploads/sites/8/2021/11/breaking-bad.jpg',
+                             numeroStagioniTotale: 5, generi: ['azione'], piattaforme: ['Netflix'],
+                            });
+serie.save(function (err) {
+    if(err) return handleError(err);
+    console.log("Serie added");
 });
 
 
