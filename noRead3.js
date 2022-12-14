@@ -1,3 +1,5 @@
+//Un esempio che non ci serve al momento visto durante i primi tutorial
+
 const express = require('express')
 const app = express()
 const port = 3000

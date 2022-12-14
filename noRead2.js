@@ -1,7 +1,8 @@
+//Un esempio che non ci serve al momento visto durante i primi tutorial
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 mongoose.set('strictQuery', false);
-
 const mongoAtlasUri = "mongodb+srv://moViewerNet:FiletMignon546@clusterprinc.qjxmkkq.mongodb.net/?retryWrites=true&w=majority";
 
 try {

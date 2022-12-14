@@ -1,3 +1,5 @@
+//In questo file si trova lo schema dell'utente
+
 const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
     mail: {
@@ -32,6 +34,3 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
-
-
-/*prova aaaaanuniaaaaaa*/

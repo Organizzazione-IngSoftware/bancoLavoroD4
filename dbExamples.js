@@ -1,3 +1,5 @@
+//Qui viene mostrato un esempio di query di inserimento di un utente 
+
 const express = require("express");
 const mongoose = require("mongoose");
 const userModel = require("./models");
@@ -29,7 +31,7 @@ user.save(function (err) {
 
 
 
-/*
+/* Esempi più avanzati che ci serviranno più avanti
 
 userModel.insertMany(
     [{ name: 'mario rossi', age: 56},
@@ -42,8 +44,5 @@ userModel.findOne( {name: 'mario rossi'}, function(err, user)
 {
     console.log("age: ", user.age);
 });
-
-lorem ipsum commento commento commento commento commento
-nmernerivneriovnreiovneriovnrivn eiobububuu
 
 */

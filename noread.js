@@ -1,5 +1,6 @@
-const http = require('http');
+//Un esempio che non ci serve al momento visto durante i primi tutorial
 
+const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
