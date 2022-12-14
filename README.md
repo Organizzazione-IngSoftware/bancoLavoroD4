@@ -1,2 +1,2 @@
 # bancoLavoroD4: Master Branch
-This is the core of the d4 document. Here there are all the files we wrote
+Questo è il cuore di tutto il lavoro svolto per scrivere il D4. Tutti i documenti si trovano qui
