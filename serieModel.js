@@ -36,5 +36,7 @@ const SerieSchema = new mongoose.Schema({
     }
 });
 
+// commento
+
 const Serie = mongoose.model("Serie", SerieSchema);
 module.exports = Serie;
