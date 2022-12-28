@@ -4,16 +4,17 @@ const app = express();
 
 const mongoose = require('mongoose');
 const routes = require('./routes/tea');
+mongoose.set('strictQuery', true);
 
 app.use(express.json());
 app.use('/', routes);
 
 mongoose.connect(
     process.env.MONGODB_URI,
-    {usedNewUrlParser: true, useUnifiedTopology: true },
+    { useNewUrlParser: true, useUnifiedTopology: true },
     (err) => {
-        if(err) return console.log("Error: ", err);
-        console.log("MongoDB conn -- state: ", mongoose.connection.readyState);
+        if (err) return console.log("Error: ", err);
+        console.log("MongoDB Connection -- Ready state is:", mongoose.connection.readyState);
     }
 );
 
