@@ -3,21 +3,27 @@ const User = require('../models/user');
 
 
 const newUser = (req, res) => {
+    let checkPassword1 = req.body.password;
+    let checkPassword2 = req.body.passwordSupp;
+    var confronto = false;
+    if (checkPassword1 == checkPassword2)
+        confronto = true;
     User.findOne({ mail: req.body.mail }, (err, data) => {
-        if (!data) {
+        if (!data && confronto) {
             const newUser = new User ({
                 mail: req.body.mail,
                 username: req.body.username,
                 password: req.body.password,
-                isPrivate: req.body.isPrivate,
+                isPrivate: false,
             })
             newUser.save((err, data) => {
                 if (err) return res.json({ Error: err });
                 return res.json(data);
             })         
         } else {
-            if (err) return res.json(`Something went wrong, please try again. ${err}`);
-            return res.json({ message: "User already exists" });
+            if (err) return res.json(`Qualcosa è andato storto. Riprova: ${err}`);
+            if (confronto) return res.json({ message: "L'utente è già esistente"});
+            else return res.json({ message: "Le password inserite non coincidono"});
         }
     })
 };
@@ -38,9 +44,9 @@ const getAllUser = (req, res) => {
 const deleteAllUser = (req, res) => {
     User.deleteMany({}, err => {
         if (err) {
-            return res.json({ message: "Complete delete failed" });
+            return res.json({ message: "L'eliminazione degli utenti non è andata a buon fine" });
         }
-        return res.json({ message: "Complete delete successful" });
+        return res.json({ message: "Eliminazione degli utenti avvenuta con successo" });
     })
 };
 
@@ -50,7 +56,7 @@ const getOneUser = (req, res) => {
     let passato = req.params.username; //get the username
     User.findOne({ username: passato }, (err, data) => {
         if (err || !data) {
-            return res.json({ message: "User doesn't exist." });
+            return res.json({ message: "L'utente cercato non esiste" });
         }
         else return res.json(data); //return the user object if found
     });
@@ -66,8 +72,7 @@ const deleteOneUser = (req, res, next) => {
             throw err;
         }
         else {
-            console.log("User deleted successfully");
-            res.json({ message: "DELETED USER" });
+            res.json({ message: "Successo: l'utente non è più presente nel database" });
         }
     });
 };
