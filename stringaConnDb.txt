@@ -1,3 +1,0 @@
-Questa è la stringa di connessione al database
-
-mongodb+srv://moViewerNet:FiletMignon546@clusterprinc.qjxmkkq.mongodb.net/?retryWrites=true&w=majority
