@@ -13,11 +13,11 @@ mongoose.connect(
     process.env.MONGODB_URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
     (err) => {
-        if (err) return console.log("Error: ", err);
-        console.log("MongoDB Connection -- Ready state is:", mongoose.connection.readyState);
+        if (err) return console.log("Errore: ", err);
+        console.log("Connessione a mongoDB -- Stato:", mongoose.connection.readyState);
     }
 );
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-    console.log('Your app is listening on port ' + listener.address().port)
+    console.log('Applicazione in ascolto sulla porta ' + listener.address().port)
 });
