@@ -79,11 +79,26 @@ const deleteOneUser = (req, res, next) => {
 
 
 
+const login = (req, res) => {
+    User.findOne({ mail: req.body.mail }, (err, data) => {
+        if (data && data.password==req.body.password) return res.json({ message: "Ho trovato l'utente in questione cercando in base alla mail"});
+        else {
+            User.findOne({ username: req.body.username }, (err, data) => {
+                if (data && data.password==req.body.password) return res.json({ message: "Ho trovato l'utente in questione cercando in base all'username'"});
+                else return res.json({ message: "L'utente in questione non è presente nel database"});
+            });
+        }
+    });
+};
+
+
+
 //export controller functions
 module.exports = {
     getAllUser,
     newUser,
     deleteAllUser,
     getOneUser,
-    deleteOneUser
+    deleteOneUser,
+    login
 };
