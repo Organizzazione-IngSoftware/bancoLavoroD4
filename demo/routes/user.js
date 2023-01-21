@@ -22,7 +22,7 @@ const movieController = require('../controllers/movie');
 router.post('/movie', movieController.createMovie);
 router.get('/movie', movieController.getAllMovie);
 router.delete('/movie', movieController.deleteAllMovie);
-router.get('/movie/:titolo', movieController.searchMovieTitle);
-router.delete('/movie/:titolo', movieController.deleteOneMovie);
+router.get('/movie/:parametro', movieController.searchMovieTitleRegist);
+router.delete('/movie/:titolo/:regista', movieController.deleteOneMovie);
 
 module.exports = router;

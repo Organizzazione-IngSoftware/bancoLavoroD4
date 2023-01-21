@@ -5,8 +5,8 @@ const open = require('open');
 
 const createMovie = (req, res) => {
     const newMovie = new Movie ({
-        titolo: req.body.titolo,
-        regista: req.body.regista,
+        titolo: req.body.titolo.toLowerCase(),
+        regista: req.body.regista.toLowerCase(),
         etaCons: req.body.etaCons,
         valutazione: -1,
         copertina: req.body.copertina,
@@ -40,11 +40,11 @@ const deleteAllMovie = (req, res) => {
 
 
 
-const searchMovieTitle = (req, res) => {
-    let passato = req.params.titolo;
-    Movie.find({ titolo: passato }, (err, data) => {
+const searchMovieTitleRegist = (req, res) => {
+    let passato = req.params.parametro.toLowerCase();
+    Movie.find({ $or: [{ titolo: passato }, { regista: passato }] }, (err, data) => {
         if (err) return res.json(`Qualcosa è andato storto. Riprova: ${err}`);
-        else if (!data) return res.json({message: "Il film cercato non è presente nel database"});
+        if (!data) return res.json('La ricerca non ha prodotto nessun contenuto');
         else return res.json(data);
     });
 };
@@ -52,8 +52,9 @@ const searchMovieTitle = (req, res) => {
 
 
 const deleteOneMovie = (req, res, next) => {
-    let passato = req.params.titolo;
-    var query = { titolo: passato };
+    let titoloPassato = req.params.titolo.toLowerCase();
+    let registaPassato = req.params.regista.toLowerCase();
+    var query = { titolo: titoloPassato, regista: registaPassato};
     Movie.deleteOne(query, (err, collection) => {
         if (err) return res.json(`Qualcosa è andato storto. Riprova: ${err}`);
         else return res.json({ message: "Successo: il film non è più presente nel database" });
@@ -67,6 +68,6 @@ module.exports = {
     createMovie,
     getAllMovie,
     deleteAllMovie,
-    searchMovieTitle,
+    searchMovieTitleRegist,
     deleteOneMovie
 };
