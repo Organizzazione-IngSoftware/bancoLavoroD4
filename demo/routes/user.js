@@ -10,7 +10,7 @@ router.get('/user/:username', userController.searchUser);
 router.delete('/user/:username', userController.deleteOneUser);
 router.post('/userLogin', userController.login);
 router.get('/userDonation', userController.donation);
-router.post('/userChangePriv', userController.changePriv);
+router.patch('/userChangePriv', userController.changePriv);
 
 
 
@@ -24,5 +24,18 @@ router.get('/movie', movieController.getAllMovie);
 router.delete('/movie', movieController.deleteAllMovie);
 router.get('/movie/:parametro', movieController.searchMovieTitleRegist);
 router.delete('/movie/:titolo/:regista', movieController.deleteOneMovie);
+
+
+
+
+
+//Controller per le serie
+const serieController = require('../controllers/serie');
+
+router.post('/serie', serieController.createSerie);
+router.get('/serie', serieController.getAllSerie);
+router.delete('/serie', serieController.deleteAllSerie);
+router.get('/serie/:parametro', movieController.searchSerieTitleRegist);
+router.delete('/serie/:titolo/:regista', serieController.deleteOneSerie);
 
 module.exports = router;
