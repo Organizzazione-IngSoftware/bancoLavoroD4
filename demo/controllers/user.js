@@ -8,7 +8,7 @@ const createUser = (req, res) => {
     let checkPassword2 = req.body.passwordSupp;
     var confronto = false;
     if (checkPassword1 == checkPassword2) confronto = true;
-    User.findOne({ mail: req.body.mail }, (err, data) => {
+    User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] }, (err, data) => {
         if (!data && confronto) {
             const newUser = new User ({
                 mail: req.body.mail,

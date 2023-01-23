@@ -12,5 +12,5 @@ const SerieSchema = new mongoose.Schema ({
     stagioni: { type: [[Number]], required: true},
 });
 
-const Serie = mongoose.model('Serie', MovieSchema);
+const Serie = mongoose.model('Serie', SerieSchema);
 module.exports = Serie;
