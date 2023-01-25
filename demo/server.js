@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
-const routes = require('./routes/user');
+const routes = require('./routes/routes');
 mongoose.set('strictQuery', true);
 
 app.use(express.json());
