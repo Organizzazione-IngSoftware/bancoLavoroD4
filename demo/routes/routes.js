@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+//Questo file andrebbe separato in 3 parti
+
 
 
 
@@ -8,14 +10,13 @@ const router = express.Router();
 //Routes per gli user
 const userController = require('../controllers/user');
 
-router.post('/user', userController.createUser);
-router.get('/user', userController.getAllUser);
-router.delete('/user', userController.deleteAllUser);
-router.get('/user/:username', userController.searchUser);
-router.delete('/user/:username', userController.deleteOneUser);
-router.post('/userLogin', userController.login);
-router.get('/userDonation', userController.donation);
-router.patch('/userChangePriv', userController.changePriv);
+router.post('/user/createUser', userController.createUser);
+router.delete('/user/deleteAllUser', userController.deleteAllUser);
+router.get('/user/searchUser/:username', userController.searchUser);
+router.delete('/user/deleteOneUser/:username', userController.deleteOneUser);
+router.post('/user/login', userController.login);
+router.get('/user/donation', userController.donation);
+router.patch('/user/changePriv', userController.changePriv);
 
 
 
@@ -24,12 +25,12 @@ router.patch('/userChangePriv', userController.changePriv);
 //Routes per i film
 const movieController = require('../controllers/movie');
 
-router.post('/movie', movieController.createMovie);
-router.get('/movie', movieController.getAllMovie);
-router.delete('/movie', movieController.deleteAllMovie);
-router.get('/movie/:parametro', movieController.searchMovieTitleRegist);
-router.delete('/movie/:titolo/:regista', movieController.deleteOneMovie);
-router.post('/movieReview', movieController.makeReview);
+router.post('/movie/createMovie', movieController.createMovie);
+router.get('/movie/getAllMovie', movieController.getAllMovie);
+router.delete('/movie/deleteAllMovie', movieController.deleteAllMovie);
+router.get('/movie/searchMovieTitleRegist/:parametro', movieController.searchMovieTitleRegist);
+router.delete('/movie/deleteOneMovie/:titolo/:regista', movieController.deleteOneMovie);
+router.post('/movie/makeReview', movieController.makeReview);
 
 
 
@@ -38,12 +39,12 @@ router.post('/movieReview', movieController.makeReview);
 //Routes per le serie
 const serieController = require('../controllers/serie');
 
-router.post('/serie', serieController.createSerie);
-router.get('/serie', serieController.getAllSerie);
-router.delete('/serie', serieController.deleteAllSerie);
-router.get('/serie/:parametro', serieController.searchSerieTitleRegist);
-router.delete('/serie/:titolo/:regista', serieController.deleteOneSerie);
-router.post('/serieReview', serieController.makeReview);
+router.post('/serie/createSerie', serieController.createSerie);
+router.get('/serie/getAllSerie', serieController.getAllSerie);
+router.delete('/serie/deleteAllSerie', serieController.deleteAllSerie);
+router.get('/serie/searchSerieTitleRegist/:parametro', serieController.searchSerieTitleRegist);
+router.delete('/serie/deleteOneSerie/:titolo/:regista', serieController.deleteOneSerie);
+router.post('/serie/makeReview', serieController.makeReview);
 
 
 

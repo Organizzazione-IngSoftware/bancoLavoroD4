@@ -28,15 +28,6 @@ const createUser = (req, res) => {
 
 
 
-const getAllUser = (req, res) => {
-    User.find({}, (err, data) => {
-        if (err) return standardError(err);
-        else return res.json(data);
-    })
-};
-
-
-
 const deleteAllUser = (req, res) => {
     User.deleteMany({}, err => {
         if (err) return standardError(err);
@@ -113,7 +104,6 @@ const standardError = (err) => { //Altra funzione di supporto
 
 //Esporto le funzioni definite
 module.exports = {
-    getAllUser,
     createUser,
     deleteAllUser,
     searchUser,

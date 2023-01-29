@@ -87,7 +87,10 @@ const makeReview = (req, res) => {
                     for(let i=0; i<data.recensioni.length; i++)
                         if(data.recensioni[i][0] == authorUser)
                             return res.json({message: "Questo utente ha già aggiunto una recensione per questo titolo"});
-                    data.recensioni.push(req.body.recensione);
+                    let recensionePassata = req.body.recensione;
+                    recensionePassata[3] = 0; //Nelle celle 3 e 4 sono contenuti il numero di reazioni
+                    recensionePassata[4] = 0;
+                    data.recensioni.push(recensionePassata);
                     data.valutazione = getUpdatedSerieScore(data.recensioni);
                     data.save(function (err) {
                         if (err) return standardError(err);
