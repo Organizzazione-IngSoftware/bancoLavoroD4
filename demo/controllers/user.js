@@ -3,32 +3,57 @@ const open = require('open');
 
 
 
-const createUser = (req, res) => {
-    let checkPassword1 = req.body.password;
-    let checkPassword2 = req.body.passwordSupp;
-    let confronto = (checkPassword1 == checkPassword2);
-    User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] }, (err, data) => {
-        if (!data && confronto) {
-            const newUser = new User ({
-                mail: req.body.mail,
-                username: req.body.username,
-                password: req.body.password,
-                isPrivate: false,
-            });
-            newUser.save((err, data) => {
-                if (err) return standardError(err);
-                else return res.json(data);
-            })         
-        }
-        else if (err) return standardError(err);
-        else if (!confronto) return res.json({ message: "Le due password inserite non coincidono"});
-        else return res.json({ message: "Hai utilizzato una mail o un username già utilizzati"});
-    })
+const createUser = async (req, res) => {
+    const myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
+    if (!myUser && req.body.password==req.body.passwordSupp) {
+        const newUser = new User ({
+            mail: req.body.mail,
+            username: req.body.username,
+            password: req.body.password,
+            isPrivate: false,
+        });
+        newUser.save((err, data) => {
+            if (err) return res.json({error: err});
+            else return res.json({message: "Ho creato l'utente: ", data});
+        });
+    }
+    else if (req.body.password != req.body.passwordSupp) return res.json({error: "Le due password inserite non corrispondono"});
+    else return res.json({error: "Hai inserito delle credenziali (mail o username) già presenti nel database"});
 };
 
 
 
-const deleteAllUser = (req, res) => {
+const searchUser = async (req, res) => {
+    const myUser = await User.findOne({ username: req.params.username }); 
+    if (!myUser) return res.json({error: "L'utente cercato non è presente nel database"});
+    else return res.json({message: "L'utente cercato esiste all'interno del database"});
+};
+
+
+
+const login = async (req, res) => {
+    const myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] });
+    if(!myUser || myUser.password!=req.body.password) return res.json({error: "Non esiste un utente con queste credenziali nel database"});
+    else return res.json({message: "L'utente ha il diritto di loggarsi"});
+};
+
+
+
+const changePriv = async (req, res) => {
+    const myUser = await User.findOne({ username: req.body.username });
+    if (!myUser) return res.json({error: "L'utente a cui vorresti cambiare l'impostazione di visibilita' non è presente nel database"});
+    else {
+        myUser.isPrivate = req.body.isPrivate;
+        myUser.save((err, data) => {
+            if (err) return res.json({error: err});
+            else return res.json({message: "Ho cambiato l'impostazione di privacy"});
+        });           
+    }
+};
+
+
+
+const deleteAllUser = async (req, res) => { //?
     User.deleteMany({}, err => {
         if (err) return standardError(err);
         else return res.json({ message: "Eliminazione degli utenti avvenuta con successo"});
@@ -37,20 +62,8 @@ const deleteAllUser = (req, res) => {
 
 
 
-const searchUser = (req, res) => {
-    let passato = req.params.username;
-    User.findOne({ username: passato }, (err, data) => {
-        if (err) return standardError(err);
-        else if (!data) return res.json({message: "L'utente cercato non è presente nel database"});
-        else return res.json(data);
-    });
-};
-
-
-
-const deleteOneUser = (req, res, next) => {
-    var query = { username: req.params.username };
-    User.deleteOne(query, (err, collection) => {
+const deleteOneUser = async (req, res, next) => { //?
+    User.deleteOne({ username: req.params.username }, (err, collection) => {
         if (err) return standardError(err);
         else return res.json({ message: "Successo: l'utente non è ora presente nel database" });
     });
@@ -58,47 +71,12 @@ const deleteOneUser = (req, res, next) => {
 
 
 
-const login = (req, res) => {
-    User.findOne({ mail: req.body.keyword }, (err, data) => {
-        if (err) return standardError(err);
-        else if (data && data.password==req.body.password) return res.json({ message: "Ho trovato l'utente in questione cercando in base alla mail"});
-        else {
-            User.findOne({ username: req.body.keyword }, (err, data) => {
-                if (err) return standardError(err);
-                else if (data && data.password==req.body.password) return res.json({ message: "Ho trovato l'utente in questione cercando in base all'username'"});
-                else return res.json({ message: "L'utente in questione non è presente nel database"});
-            });
-        }
-    });
-};
-
-
-
-const donation = (req, res) => {
-    open('https://www.paypal.com/donate/?hosted_button_id=DQ387XP5GBANN');
+const donation = async (req, res) => { //?
+    await open('https://www.paypal.com/donate/?hosted_button_id=DQ387XP5GBANN');
+    return res.json({message: "Ho aperto la pagina per effettuare la donazione"});
 }
 
 
-
-const changePriv = (req, res) => {
-    User.findOne({ username: req.body.username }, (err, data) => {
-        if (err) return standardError(err);
-        else if (!data) return res.json({message: "L'utente a cui vorresti cambiare l'impostazione di visibilita' non è presente nel database"});
-        else {
-            data.isPrivate = req.body.isPrivate;
-            data.save(function (err) {
-                if(err) return standardError(err);
-            });
-            return res.json({message: "La modifica è andata a buon fine"});
-        }
-    });
-}
-
-
-
-const standardError = (err) => { //Altra funzione di supporto
-    return res.json(`Qualcosa è andato storto. Riprova: ${err}`);
-}
 
 
 

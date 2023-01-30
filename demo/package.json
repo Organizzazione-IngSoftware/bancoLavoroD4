@@ -2,10 +2,12 @@
   "name": "demo",
   "version": "1.0.0",
   "description": "Progetto per lo sviluppo della piattaforma MoViewerNet",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node index.js",
+    "start_local": "echo use: $ npm run dev",
+    "dev": "node -r dotenv/config index.js"
   },
   "keywords": [
     "SE",

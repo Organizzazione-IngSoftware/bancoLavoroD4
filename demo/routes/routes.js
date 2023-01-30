@@ -30,7 +30,6 @@ router.get('/movie/getAllMovie', movieController.getAllMovie);
 router.delete('/movie/deleteAllMovie', movieController.deleteAllMovie);
 router.get('/movie/searchMovieTitleRegist/:parametro', movieController.searchMovieTitleRegist);
 router.delete('/movie/deleteOneMovie/:titolo/:regista', movieController.deleteOneMovie);
-router.post('/movie/makeReview', movieController.makeReview);
 
 
 
@@ -44,7 +43,6 @@ router.get('/serie/getAllSerie', serieController.getAllSerie);
 router.delete('/serie/deleteAllSerie', serieController.deleteAllSerie);
 router.get('/serie/searchSerieTitleRegist/:parametro', serieController.searchSerieTitleRegist);
 router.delete('/serie/deleteOneSerie/:titolo/:regista', serieController.deleteOneSerie);
-router.post('/serie/makeReview', serieController.makeReview);
 
 
 
