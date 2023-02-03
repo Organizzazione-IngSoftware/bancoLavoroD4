@@ -6,9 +6,17 @@ const Movie = require('./models/movie');
 
 router.get('/getById/:id', async (req, res) => { //ok
     let myMovie = await Movie.findById(req.params.id);
-    res.status(200).json({
+    res.status(200).json( { //200 success
         self: '/api/v1/movie/' + myMovie.id,
-        titolo: myMovie.titolo
+        titolo: myMovie.titolo,
+        regista: myMovie.regista,
+        etaCons: myMovie.etaCons,
+        valutazione: myMovie.valutazione,
+        copertina: myMovie.copertina,
+        generi: myMovie.generi,
+        piattaforme: myMovie.piattaforme,
+        durata: myMovie.durata,
+        recensioni: myMovie.recensioni
     });
 });
 
@@ -32,7 +40,7 @@ router.post('', async (req, res) => { //ok
         res.location("/api/v1/movie/" + movieId).status(201).send(); //201 created
     } else {
         console.log('Questo film risulta essere già esistente nel database');
-        res.status(403).send();
+        res.status(409).send(); //409 conflict
     }
 });
 
@@ -44,7 +52,9 @@ router.get('', async (req, res) => { //ok
         return {
             self: '/api/v1/movie/' + myMovies.id,
             titolo: myMovies.titolo,
-            regista: myMovies.regista
+            valutazione: myMovies.valutazione,
+            copertina: myMovies.copertina,
+            durata: myMovies.durata,
         };
     });
     res.status(200).json(myMovies); //200 found
@@ -54,7 +64,7 @@ router.get('', async (req, res) => { //ok
 
 router.delete('', async (req, res) => { //ok
     await Movie.deleteMany({});
-    console.log('Film rimosso dal database');
+    console.log('Tutti i film sono stati rimossi con successo dal database');
     res.status(204).send(); //204 deleted
 });
 
@@ -66,7 +76,9 @@ router.get('/:parametro', async (req, res) => { //ok
         return {
             self: '/api/v1/movie/' + myMovies.id,
             titolo: myMovies.titolo,
-            regista: myMovies.regista
+            valutazione: myMovies.valutazione,
+            copertina: myMovies.copertina,
+            durata: myMovies.durata,
         };
     });
     res.status(200).json(myMovies); //200 found
@@ -78,7 +90,7 @@ router.delete('/:titolo/:regista', async (req, res) => { //ok
     let myMovie = await Movie.findOne({titolo: req.params.titolo.toLowerCase(), regista:req.params.regista.toLowerCase()});
     if(!myMovie) {
         res.status(404).send(); //404 not found
-        console.log('Il film cercato non esiste');
+        console.log('Il film che si vuole eliminare non esiste');
         return;
     }
     await myMovie.deleteOne();

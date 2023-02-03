@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "MoViewerNet",
   "version": "1.0.0",
   "description": "Progetto per lo sviluppo della piattaforma MoViewerNet",
   "main": "index.js",
@@ -10,8 +10,9 @@
     "dev": "node -r dotenv/config index.js"
   },
   "keywords": [
-    "SE",
-    "demo"
+    "software engineering",
+    "MoViewerNet",
+    "unitn"
   ],
   "author": "Alessandro, Aurora, Matteo",
   "license": "ISC",
