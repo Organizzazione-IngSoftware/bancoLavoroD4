@@ -27,7 +27,7 @@ router.post('', async (req, res) => { //ok
             password: req.body.password,
             isPrivate: false,
         });
-        if(!newUser.mail || typeof newUser.mail != 'String' || !checkIfEmailInString(newUser.mail)) {
+        if(!newUser.mail || !checkIfEmailInString(newUser.mail)) {
             res.status(400).json({ error: 'Quella inserita non risulta essere una mail valida' }); //400 bad request
             return;
         }
