@@ -4,6 +4,27 @@ const Movie = require('./models/movie');
 
 
 
+router.get('/getSomeOrAll', async (req, res) => {
+    let myMovie;
+    if (req.query.parametro)
+        myMovie = await Movie.find( {$or: [{ titolo: req.query.parametro.toLowerCase() }, { regista: req.query.parametro.toLowerCase() }]} ).exec();
+    else
+        myMovie = await Movie.find().exec();
+    myMovie = myMovie.map( (entry) => {
+        return {
+            self: 'api/v1/movie' + entry.id,
+            titolo: entry.titolo,
+            valutazione: entry.valutazione,
+            copertina: entry.copertina,
+            durata: entry.durata,
+        }
+    });
+    console.log("Ricerca eseguita");
+    res.status(200).json(myMovie);
+});
+
+
+
 router.get('/getById/:id', async (req, res) => { //ok
     let myMovie = await Movie.findById(req.params.id);
     res.status(200).json( { //200 success

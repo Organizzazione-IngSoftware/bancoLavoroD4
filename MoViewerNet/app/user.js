@@ -18,6 +18,25 @@ router.get('/getById/:id', async (req, res) => { //ok
 
 
 
+router.get('/getOneOrAll', async (req, res) => {
+    let myUser;
+    if (req.query.username)
+        myUser = await User.find( {username: req.query.username} ).exec();
+    else
+        myUser = await User.find().exec();
+    myUser = myUser.map( (entry) => {
+        return {
+            self: 'api/v1/user' + entry.id,
+            username: entry.username,
+            isPrivate: entry.isPrivate
+        }
+    });
+    console.log("Ricerca eseguita");
+    res.status(200).json(myUser);
+});
+
+
+
 router.post('', async (req, res) => { //ok
     let myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
     if (!myUser && req.body.password==req.body.passwordSupp) {
@@ -27,7 +46,7 @@ router.post('', async (req, res) => { //ok
             password: req.body.password,
             isPrivate: false,
         });
-        if(!newUser.mail || !checkIfEmailInString(newUser.mail)) {
+        if(!newUser.mail || typeof newUser.mail != 'string' || !checkIfEmailInString(newUser.mail)) {
             res.status(400).json({ error: 'Quella inserita non risulta essere una mail valida' }); //400 bad request
             return;
         }
@@ -120,10 +139,9 @@ router.get('', async (req, res) => { //ok
 
 
 
-function checkIfEmailInString(text) {
-    // eslint-disable-next-line
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(text);
+function checkIfEmailInString(passedText) {
+    var regularExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regularExp.test(passedText);
 }
 
 

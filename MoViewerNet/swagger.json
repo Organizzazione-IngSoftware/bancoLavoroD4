@@ -1,0 +1,59 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "MoViewerNet APIs",
+        "description": "APIs per il progetto MoViewerNet",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "tags": [
+        {
+            "name":"user",
+            "description":"APIs per gli utenti del sistema"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/v1/movie": {
+            "get": {
+                "tags": [
+                    "movie"
+                ],
+                "summary": "Get all movies in the database",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/movie"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "movie": {
+            "required": [
+                "titolo"
+            ],
+            "properties": {
+                "titolo": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
