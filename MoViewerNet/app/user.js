@@ -7,6 +7,22 @@ const User = require('./models/user');
 
 
 
+router.post('/login', async function(req, res) {
+    let myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] }).exec();
+    if (!myUser) res.json({success: false, message: 'User not found'});
+    else if (myUser.password != req.body.password) res.json({success: false, message: 'Wrong password'});
+
+    var payload = { email: myUser.mail, id: myUser.id, other_data: encrypted_in_the_token };
+    var options = { expiresIn: 86400};
+    var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+
+    res.json({ success: true, message: 'Enjoy your token!',
+        token: token, email: myUser.mail, id: myUser.id, self: "api/v1/" + myUser.id
+    });
+});
+
+
+
 router.get('/getById/:id', async (req, res) => { //ok
     let myUser = await User.findById(req.params.id);
     res.status(200).json( {
@@ -74,20 +90,6 @@ router.get('/:username', async (req, res) => { //ok
     };
     res.status(200).json(myUser); //200 found
     console.log('Ho trovato un utente con questo username');
-});
-
-
-
-router.post('/login', async (req, res) => { //ok
-    let myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] });
-    if(!myUser || myUser.password!=req.body.password) {
-        res.status(403).send(); //403 forbidden
-        console.log('User doesnt exists');
-    }
-    else {
-        res.status(200).send(); //200 found
-        console.log('User can log');
-    }
 });
 
 
