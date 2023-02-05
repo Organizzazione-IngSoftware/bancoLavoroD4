@@ -43,7 +43,7 @@ router.get('/getById/:id', async (req, res) => { //ok
 
 
 
-router.post('', async (req, res) => { //ok
+router.post('/create', async (req, res) => { //ok
     let myMovie = await Movie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
     if (!myMovie) {
         let newMovie = new Movie ({
@@ -67,7 +67,7 @@ router.post('', async (req, res) => { //ok
 
 
 
-router.get('', async (req, res) => { //ok
+router.get('/getAll', async (req, res) => { //ok
     let myMovies = await Movie.find({});
     myMovies = myMovies.map( (myMovies) => {
         return {
@@ -83,7 +83,7 @@ router.get('', async (req, res) => { //ok
 
 
 
-router.delete('', async (req, res) => { //ok
+router.delete('/deleteAll', async (req, res) => { //ok
     await Movie.deleteMany({});
     console.log('Tutti i film sono stati rimossi con successo dal database');
     res.status(204).send(); //204 deleted
@@ -91,7 +91,7 @@ router.delete('', async (req, res) => { //ok
 
 
 
-router.get('/:parametro', async (req, res) => { //ok
+router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
     let myMovies = await Movie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
     myMovies = myMovies.map( (myMovies) => {
         return {
@@ -107,7 +107,7 @@ router.get('/:parametro', async (req, res) => { //ok
 
 
 
-router.delete('/:titolo/:regista', async (req, res) => { //ok
+router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //ok
     let myMovie = await Movie.findOne({titolo: req.params.titolo.toLowerCase(), regista:req.params.regista.toLowerCase()});
     if(!myMovie) {
         res.status(404).send(); //404 not found

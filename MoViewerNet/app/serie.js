@@ -42,7 +42,7 @@ router.get('/getById/:id', async (req, res) => { //ok
 
 
 
-router.post('', async (req, res) => { //ok
+router.post('/create', async (req, res) => { //ok
     let mySerie = await Serie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
     if (!mySerie) {
         let newSerie = new Serie ({
@@ -66,7 +66,7 @@ router.post('', async (req, res) => { //ok
 
 
 
-router.get('', async (req, res) => { //ok
+router.get('/getAll', async (req, res) => { //ok
     let mySeries = await Serie.find({});
     mySeries = mySeries.map( (mySeries) => {
         return {
@@ -81,7 +81,7 @@ router.get('', async (req, res) => { //ok
 
 
 
-router.delete('', async (req, res) => { //ok
+router.delete('/deleteAll', async (req, res) => { //ok
     await Serie.deleteMany({});
     console.log('Tutte le serie sono state rimosse con successo dal database');
     res.status(204).send(); //204 deleted
@@ -89,7 +89,7 @@ router.delete('', async (req, res) => { //ok
 
 
 
-router.get('/:parametro', async (req, res) => { //ok
+router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
     let mySeries = await Serie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
     mySeries = mySeries.map( (mySeries) => {
         return {
@@ -104,7 +104,7 @@ router.get('/:parametro', async (req, res) => { //ok
 
 
 
-router.delete('/:titolo/:regista', async (req, res) => { //ok
+router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //ok
     let mySerie = await Serie.findOne({titolo: req.params.titolo.toLowerCase(), regista:req.params.regista.toLowerCase()});
     if(!mySerie) {
         res.status(404).send(); //404 not found

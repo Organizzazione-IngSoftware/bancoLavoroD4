@@ -7,7 +7,7 @@ const User = require('./models/user');
 
 
 
-router.post('/login', async function(req, res) {
+router.post('/authentication', async function(req, res) { //shouldn't stay in user I think
     let myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] }).exec();
     if (!myUser) res.json({success: false, message: 'User not found'});
     else if (myUser.password != req.body.password) res.json({success: false, message: 'Wrong password'});
@@ -53,7 +53,7 @@ router.get('/getOneOrAll', async (req, res) => {
 
 
 
-router.post('', async (req, res) => { //ok
+router.post('/signUp', async (req, res) => { //ok
     let myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
     if (!myUser && req.body.password==req.body.passwordSupp) {
         let newUser = new User ({
@@ -77,7 +77,7 @@ router.post('', async (req, res) => { //ok
 
 
 
-router.get('/:username', async (req, res) => { //ok
+router.get('/findOne/:username', async (req, res) => { //ok
     let myUser = await User.findOne({username: req.params.username});
     if(!myUser) {
         res.status(404).json({ error: 'Non ho trovato un utente con questo username' }); //404 not found
@@ -94,7 +94,7 @@ router.get('/:username', async (req, res) => { //ok
 
 
 
-router.patch('', async (req, res) => { //ok
+router.patch('/setPrivacy', async (req, res) => { //ok
     let myUser = await User.findOne({ username: req.body.username });
     if (myUser) {
         myUser.isPrivate = req.body.isPrivate;
@@ -111,7 +111,7 @@ router.patch('', async (req, res) => { //ok
 
 
 
-router.delete('', async (req, res) => { //ok
+router.delete('/deleteAll', async (req, res) => { //ok
     await User.deleteMany({});
     console.log('Utenti rimossi dal database');
     res.status(204).send(); //204 deleted
@@ -119,7 +119,7 @@ router.delete('', async (req, res) => { //ok
 
 
 
-router.delete('/:username', async (req, res) => { //ok
+router.delete('/deleteOne/:username', async (req, res) => { //ok
     let myUser = await User.findOne({username: req.params.username})
     if(!myUser) {
         res.status(404).send(); //404 not found
@@ -133,7 +133,7 @@ router.delete('/:username', async (req, res) => { //ok
 
 
 
-router.get('', async (req, res) => { //ok
+router.get('/donation', async (req, res) => { //ok
     open('https://www.paypal.com/donate/?hosted_button_id=DQ387XP5GBANN');
     res.status(200).send(); //200 success
     console.log("Ho aperto la pagina per effettuare la donazione");
