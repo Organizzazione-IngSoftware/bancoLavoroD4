@@ -5,10 +5,10 @@ var loggedUser = {}
 function login() {
     var email = document.getElementById("loginEmail").value;
     var password = document.getElementById("loginPassword").value;
-    fetch('../api/v1/authentication/auth', {
+    fetch('../api/v1/user/authentication', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( {mail: email, password: password} ),
+        body: JSON.stringify( {keyword: email, password: password} ),
     }).then((resp) => resp.json())
 
     .then(function(data) {

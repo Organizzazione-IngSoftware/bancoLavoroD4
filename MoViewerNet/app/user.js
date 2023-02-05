@@ -2,8 +2,32 @@ const express = require('express');
 const router = express.Router();
 const open = require('open');
 const User = require('./models/user');
+const jwt = require('jsonwebtoken');
 
 //.exec() dopo le query
+
+
+
+router.post('/authentication', async function(req, res) {
+    let myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] }).exec();
+    if (!myUser) {
+        console.log("user not found");
+        res.json({success: false, message: 'User not found'})
+        return;
+    }
+    else if (myUser.password != req.body.password) {
+        console.log("wrong password");
+        res.json({success: false, message: 'Wrong password'});
+        return;
+    }
+    var payload = { email: myUser.mail, id: myUser.id };
+    var options = { expiresIn: 86400};
+    var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+
+    res.json({ success: true, message: 'Enjoy your token!',
+        token: token, email: myUser.mail, id: myUser.id, self: "api/v1/" + myUser.id
+    });
+});
 
 
 

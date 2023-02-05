@@ -30,7 +30,6 @@ const tokenChecker = function(req, res, next) {
 const movie = require('./movie.js');
 const serie = require('./serie.js');
 const user = require('./user.js');
-const authentication = require('./authentication.js');
 
 
 
@@ -46,7 +45,6 @@ app.use((req, res, next) => {
 
 
 
-app.use('api/v1/authentication', authentication);
 app.use('/api/v1/movie/create', tokenChecker);
 app.use('/api/v1/movie/deleteAll', tokenChecker);
 app.use('/api/v1/movie/deleteOne', tokenChecker);
