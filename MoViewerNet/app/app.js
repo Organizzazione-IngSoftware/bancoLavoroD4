@@ -30,6 +30,12 @@ const tokenChecker = function(req, res, next) {
 const movie = require('./movie.js');
 const serie = require('./serie.js');
 const user = require('./user.js');
+const authentication = require('./authentication.js');
+
+
+
+app.use('/', express.static(process.env.FRONTED || 'static'));
+app.use('/', express.static('static'));
 
 
 

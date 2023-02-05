@@ -1,0 +1,22 @@
+<html>
+    <body>
+
+        <h1>MoViewerNet</h1>
+        <form action="api/v1/user" method="post" name="loginform" id="loginform">
+            <span>Logged User:</span> <span id="loggedUser"></span>
+            <input name="email" value="mario.rossi@unitn.com" id="loginEmail"/>
+            <input name="password" value="123" id="loginPassword"/>
+            <button type="button" onclick="login()">LogIn</button>
+        </form>
+        <h2>Movies:</h2> <ul id="movies"></ul>
+        <h2>Insert new movie:</h2>
+        <form action="api/v1/movie" method="post" name="movieform" id="movieform">
+            <input name="title" value="title" id="bookTitle"/>
+            <button type="button" onclick="insertBook()">Insert new book</button>
+        </form>
+        <p id="demo"></p>
+        <script>document.getElementById("demo").innerHTML = "Hello world";</script>
+        <script src="script.js"></script>
+
+    </body>
+</html>
