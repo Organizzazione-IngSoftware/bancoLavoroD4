@@ -1,22 +1,36 @@
+<!DOCTYPE html>
 <html>
-    <body>
 
-        <h1>MoViewerNet</h1>
-        <form action="api/v1/user" method="post" name="loginform" id="loginform">
-            <span>Logged User:</span> <span id="loggedUser"></span>
-            <input name="email" value="mario.rossi@unitn.com" id="loginEmail"/>
-            <input name="password" value="123" id="loginPassword"/>
-            <button type="button" onclick="login()">LogIn</button>
-        </form>
-        <h2>Movies:</h2> <ul id="movies"></ul>
-        <h2>Insert new movie:</h2>
-        <form action="api/v1/movie" method="post" name="movieform" id="movieform">
-            <input name="title" value="title" id="bookTitle"/>
-            <button type="button" onclick="insertBook()">Insert new book</button>
-        </form>
-        <p id="demo"></p>
-        <script>document.getElementById("demo").innerHTML = "Hello world";</script>
-        <script src="script.js"></script>
+<head>
+</head>
 
-    </body>
+<body>
+
+  <h1>EasyLib Project</h1>
+
+  <form action="api/v1/user" method="post" name="loginform" id="loginform">
+    <span>Logged User:</span>
+    <span id="loggedUser"></span>
+    <input name="email" value="mario.rossi@unitn.com" id="loginEmail" />
+    <input name="email" value="123" id="loginPassword" />
+    <button type="button" onclick="login()">LogIn</button>
+  </form>
+
+  <h2>Movie:</h2>
+  <ul id="movie"></ul>
+
+  <h2>Insert new movie:</h2>
+
+  <form action="api/v1/movie" method="post" name="movieform" id="movieform">
+    <span>Movie:</span>
+    <span id="movie"></span>
+    <input name="titolo" value="titolo" id="movieTitolo" />
+    <input name="regista" value="regista" id="movieRegista" />
+    <button type="button" onclick="putMovie()">Insert</button>
+  </form>
+
+  <script src="script.js"></script>
+
+</body>
+
 </html>
