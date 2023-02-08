@@ -24,16 +24,13 @@ app.use('/', express.static(process.env.FRONTED || 'static'));
 app.use('/', express.static('static'));
 
 
-
 app.use((req, res, next) => {
     console.log("api chiamata: " + req.method + ' ' + req.url);
     next();
 });
 
 
-
 app.use('/api/v1/authentications', authentication);
-
 app.use('/api/v1/movie/create', tokenChecker);
 app.use('/api/v1/movie/deleteAll', tokenChecker);
 app.use('/api/v1/movie/deleteOne', tokenChecker);
@@ -45,18 +42,15 @@ app.use('/api/v1/user/deleteAll', tokenChecker);
 app.use('/api/v1/user/deleteOne', tokenChecker);
 
 
-
 app.use('/api/v1/movie', movie);
 app.use('/api/v1/serie', serie);
 app.use('/api/v1/user', user);
-
 
 
 app.use((req, res) => {
     res.status(404);
     res.json({ error: "Not found" });
 });
-
 
 
 module.exports = app;

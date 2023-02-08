@@ -1,36 +1,78 @@
 <!DOCTYPE html>
 <html>
+  <head>
+  </head>
 
-<head>
-</head>
 
-<body>
 
-  <h1>EasyLib Project</h1>
+  <body>
+    <h1>MoViewerNet: dimostrazione delle API</h1> <hr>
 
-  <form action="api/v1/user" method="post" name="loginform" id="loginform">
-    <span>Logged User:</span>
-    <span id="loggedUser"></span>
-    <input name="email" value="mario.rossi@unitn.com" id="loginEmail" />
-    <input name="email" value="123" id="loginPassword" />
-    <button type="button" onclick="login()">LogIn</button>
-  </form>
+    
+    
+    <br /><br /> <br /><br />
+    <h2>API relative agli utenti:</h2> <br />
 
-  <h2>Movie:</h2>
-  <ul id="movie"></ul>
+    <h3>Login:</h3>
+    <form action="api/v1/user" method="post" name="loginform" id="loginform">
+      <span>Utente loggato:</span>
+      <span id="loggedUser">none</span><br />
+      <input name="email" value="mail o username" id="loginEmail" />
+      <br /><input name="password" value="password" id="loginPassword" />
+      <button type="button" onclick="login()">Accedi</button>
+    </form>
 
-  <h2>Insert new movie:</h2>
+    <br /><h3>Registrati:</h3>
+    <form action="api/v1/user" method="post" name="loginform" id="loginform">
+      <span>Feedback: </span>
+      <span id="signUp"></span>
+      <br /><input name="email" value="email" id="signupEmail" />
+      <br /><input name="username" value="username" id="signupUsername" />
+      <br /><input name="password" value="password" id="signupPassword" />
+      <br /><input name="passwordSupp" value="ripeti la password" id="signupPasswordSupp" />
+      <button type="button" onclick="registrati()">Registrati</button>
+    </form>
 
-  <form action="api/v1/movie" method="post" name="movieform" id="movieform">
-    <span>Movie:</span>
-    <span id="movie"></span>
-    <input name="titolo" value="titolo" id="movieTitolo" />
-    <input name="regista" value="regista" id="movieRegista" />
-    <button type="button" onclick="putMovie()">Insert</button>
-  </form>
+    <br /><h3>Fai una donazione:</h3>
+    <button type="button" onclick="donazione()">Dona</button>
 
-  <script src="script.js"></script>
 
-</body>
 
+    <br /><br /><br /><br /><br /><br /><br /><hr>
+    <h2>API relative ai film:</h2> <br />
+
+    <h3>Inserisci un nuovo film (API di test):</h3>
+    <form action="api/v1/movie" method="post" name="movieform" id="movieform">
+      <span>Feedback: </span>
+      <span id="movie"></span>
+      <br /><input name="titolo" value="titolo" id="movieTitolo" />
+      <br /><input name="regista" value="regista" id="movieRegista" />
+      <br /><input name="età consiglia" value="età consigliata" id="movieEtaCons" />
+      <br /><input name="copertina" value="copertina" id="movieCopertina" />
+      <br /><input name="durata" value="durata" id="movieDurata" />
+      <br /><input name="generi" value="generi" id="movieGeneri" />
+      <br /><input name="piattaforme" value="piattaforme" id="moviePiattaforme" />
+      <button type="button" onclick="putMovie()">Inserisci</button>
+      <br />
+    </form>
+
+    <br /><h3>Visualizza tutti i film:</h3>
+    <button type="button" onclick="trovaTuttiFilm()">Visualizza</button>
+    <ul id="movies"></ul>
+
+    <br /><h3>Cerca un film in base a titolo o regista:</h3>
+    <form action="api/v1/movie" method="post" name="movieTRform" id="movieTRform">
+      <input name="titolo" value="titolo" id="movieTRTitolo" />
+      <button type="button" onclick="trovaFilmTitoloRegista()">Cerca</button>
+    </form>
+    <ul id="moviesTR"></ul>
+
+    
+    
+    <br /><br /><br /><br /><br /><hr><h3>Tutte le API con scritto accanto API di test
+    <br />non fanno parte dell'applicazione e andrebbero rimosse.
+    <br />Sono state lasciate all'interno della pagina per poter testare
+    <br />le varie API in maniera più semplice e veloce</h3>
+    <script src="script.js"></script>
+  </body>
 </html>

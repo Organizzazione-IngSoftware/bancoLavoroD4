@@ -1,44 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./models/user'); // get our mongoose model
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const User = require('./models/user');
+const jwt = require('jsonwebtoken');
 
 
-// ---------------------------------------------------------
-// route to authenticate and get a new token
-// ---------------------------------------------------------
+
 router.post('', async function(req, res) {
-	
-	// find the user
-	let user = await User.findOne({
-		mail: req.body.email
-	}).exec();
-	
-	// user not found
+	let user = await User.findOne({$or: [{ mail: req.body.email }, { username: req.body.email }]}).exec();
 	if (!user) {
 		res.json({ success: false, message: 'Authentication failed. User not found.' });
 		console.log("no user");
 		return;
 	}
-	
-	// check if password matches
 	if (user.password != req.body.password) {
 		console.log("no password");
 		res.json({ success: false, message: 'Authentication failed. Wrong password.' });
 		return;
 	}
-	
-	// if user is found and password is right create a token
 	var payload = {
 		email: user.mail,
-		id: user._id
-		// other data encrypted in the token	
+		id: user._id	
 	}
 	var options = {
-		expiresIn: 86400 // expires in 24 hours
+		expiresIn: 86400 //24 hours
 	}
 	var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-
 	res.json({
 		success: true,
 		message: 'Enjoy your token!',
@@ -47,7 +33,6 @@ router.post('', async function(req, res) {
 		id: user._id,
 		self: "api/v1/" + user._id
 	});
-
 });
 
 

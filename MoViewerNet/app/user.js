@@ -8,29 +8,6 @@ const jwt = require('jsonwebtoken');
 
 
 
-router.post('/authentication', async function(req, res) {
-    let myUser = await User.findOne({ $or: [{ mail: req.body.keyword }, { username: req.body.keyword }] }).exec();
-    if (!myUser) {
-        console.log("user not found");
-        res.json({success: false, message: 'User not found'})
-        return;
-    }
-    else if (myUser.password != req.body.password) {
-        console.log("wrong password");
-        res.json({success: false, message: 'Wrong password'});
-        return;
-    }
-    var payload = { email: myUser.mail, id: myUser.id };
-    var options = { expiresIn: 86400};
-    var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-
-    res.json({ success: true, message: 'Enjoy your token!',
-        token: token, email: myUser.mail, id: myUser.id, self: "api/v1/" + myUser.id
-    });
-});
-
-
-
 router.get('/getById/:id', async (req, res) => { //ok
     let myUser = await User.findById(req.params.id);
     res.status(200).json( {
@@ -62,6 +39,7 @@ router.get('/getOneOrAll', async (req, res) => {
 
 
 router.post('/signUp', async (req, res) => { //ok
+    console.log("ci sono");
     let myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
     if (!myUser && req.body.password==req.body.passwordSupp) {
         let newUser = new User ({
@@ -71,6 +49,7 @@ router.post('/signUp', async (req, res) => { //ok
             isPrivate: false,
         });
         if(!newUser.mail || typeof newUser.mail != 'string' || !checkIfEmailInString(newUser.mail)) {
+            console.log("invalid mail");
             res.status(400).json({ error: 'Quella inserita non risulta essere una mail valida' }); //400 bad request
             return;
         }
@@ -79,9 +58,11 @@ router.post('/signUp', async (req, res) => { //ok
         console.log('Utente salvato con successo nel database');
         res.location("/api/v1/user/" + userId).status(201).send(); //201 posted
     }
-    else
+    else {
+        console.log("Utente già esistente o password non coincidenti!");
         res.status(409).json({ error: 'Nel database esiste già un utente che utilizza una di queste credenziali' }); //409 conflict
-});
+    }
+    });
 
 
 
