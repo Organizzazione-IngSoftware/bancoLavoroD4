@@ -29,6 +29,7 @@ router.post('', async function(req, res) {
 		success: true,
 		message: 'Enjoy your token!',
 		token: token,
+		isPrivate: user.isPrivate,
 		email: user.mail,
 		id: user._id,
 		self: "api/v1/" + user._id

@@ -2,39 +2,8 @@ const express = require('express');
 const router = express.Router();
 const open = require('open');
 const User = require('./models/user');
-const jwt = require('jsonwebtoken');
 
 //.exec() dopo le query
-
-
-
-router.get('/getById/:id', async (req, res) => { //ok
-    let myUser = await User.findById(req.params.id);
-    res.status(200).json( {
-        self: '/api/v1/user/' + myUser.id,
-        username: myUser.username,
-        isPrivate: myUser.isPrivate
-    });
-});
-
-
-
-router.get('/getOneOrAll', async (req, res) => {
-    let myUser;
-    if (req.query.username)
-        myUser = await User.find( {username: req.query.username} ).exec();
-    else
-        myUser = await User.find().exec();
-    myUser = myUser.map( (entry) => {
-        return {
-            self: 'api/v1/user' + entry.id,
-            username: entry.username,
-            isPrivate: entry.isPrivate
-        }
-    });
-    console.log("Ricerca eseguita");
-    res.status(200).json(myUser);
-});
 
 
 
@@ -62,29 +31,32 @@ router.post('/signUp', async (req, res) => { //ok
         console.log("Utente già esistente o password non coincidenti!");
         res.status(409).json({ error: 'Nel database esiste già un utente che utilizza una di queste credenziali' }); //409 conflict
     }
-    });
+});
 
 
 
 router.get('/findOne/:username', async (req, res) => { //ok
-    let myUser = await User.findOne({username: req.params.username});
+    let myUser = await User.find({username: req.params.username});
     if(!myUser) {
         res.status(404).json({ error: 'Non ho trovato un utente con questo username' }); //404 not found
         return;
     }
-    myUser = {
-        self: '/api/v1/user/' + myUser.id,
-        username: myUser.username,
-        isPrivate: myUser.isPrivate
-    };
+    myUser = myUser.map((myUser) => {
+        return {
+            self: '/api/v1/user/' + myUser.id,
+            username: myUser.username,
+            isPrivate: myUser.isPrivate
+        };
+    });
     res.status(200).json(myUser); //200 found
     console.log('Ho trovato un utente con questo username');
 });
 
 
 
-router.patch('/setPrivacy', async (req, res) => { //ok
-    let myUser = await User.findOne({ username: req.body.username });
+router.patch('/setMyPrivacy', async (req, res) => { //ok
+    console.log("eccomi");
+    let myUser = await User.findOne({ mail: req.body.mail });
     if (myUser) {
         myUser.isPrivate = req.body.isPrivate;
         myUser = await myUser.save();
@@ -123,9 +95,21 @@ router.delete('/deleteOne/:username', async (req, res) => { //ok
 
 
 router.get('/donation', async (req, res) => { //ok
+    console.log("ciao");
     open('https://www.paypal.com/donate/?hosted_button_id=DQ387XP5GBANN');
     res.status(200).send(); //200 success
     console.log("Ho aperto la pagina per effettuare la donazione");
+});
+
+
+
+router.get('/:id', async (req, res) => { //ok
+    let myUser = await User.findById(req.params.id);
+    res.status(200).json( {
+        self: '/api/v1/user/' + myUser.id,
+        username: myUser.username,
+        isPrivate: myUser.isPrivate
+    });
 });
 
 
@@ -134,8 +118,6 @@ function checkIfEmailInString(passedText) {
     var regularExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regularExp.test(passedText);
 }
-
-
 
 
 

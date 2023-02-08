@@ -33,7 +33,27 @@
       <button type="button" onclick="registrati()">Registrati</button>
     </form>
 
-    <br /><h3>Fai una donazione:</h3>
+    <br /><h3>Cerca un utente in base al suo username:</h3>
+    <form action="api/v1/user" method="get" name="userSearchform" id="userSearchform">
+      <input name="username" value="username" id="userSearchUsername" />
+      <button type="button" onclick="trovaUtente()">Cerca</button>
+    </form>
+    <ul id="userList"></ul>
+
+    <br /><h3>Modifica la tua clausola di visibilità:</h3>
+    <span>Ora sei: </span>
+    <span id="privacy">non loggato >>> </span>
+    <form action="api/v1/user" method="patch" name="privacyform" id="privacyform">
+      <br />
+      <input type="radio" id="privato" name="privacy" value="privato" checked>
+      <label for="privato">privato</label><br>
+      <input type="radio" id="pubblico" name="privacy" value="pubblico">
+      <label for="pubblico">pubblico</label><br>
+      <br /><button type="button" onclick="changePrivacy()">Cambia</button>
+      <br />
+    </form>
+
+    <br /><br /><br /><h3>Fai una donazione:</h3>
     <button type="button" onclick="donazione()">Dona</button>
 
 
@@ -57,11 +77,10 @@
     </form>
 
     <br /><h3>Visualizza tutti i film:</h3>
-    <button type="button" onclick="trovaTuttiFilm()">Visualizza</button>
     <ul id="movies"></ul>
 
     <br /><h3>Cerca un film in base a titolo o regista:</h3>
-    <form action="api/v1/movie" method="post" name="movieTRform" id="movieTRform">
+    <form action="api/v1/movie" method="get" name="movieTRform" id="movieTRform">
       <input name="titolo" value="titolo" id="movieTRTitolo" />
       <button type="button" onclick="trovaFilmTitoloRegista()">Cerca</button>
     </form>

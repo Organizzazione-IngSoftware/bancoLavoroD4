@@ -4,44 +4,6 @@ const Serie = require('./models/serie');
 
 
 
-router.get('/getSomeOrAll', async (req, res) => {
-    let mySerie;
-    if (req.query.parametro)
-        mySerie = await Serie.find( {$or: [{ titolo: req.query.parametro.toLowerCase() }, { regista: req.query.parametro.toLowerCase() }]} ).exec();
-    else
-        mySerie = await Serie.find().exec();
-    mySerie = mySerie.map( (entry) => {
-        return {
-            self: 'api/v1/serie' + entry.id,
-            titolo: entry.titolo,
-            valutazione: entry.valutazione,
-            copertina: entry.copertina,
-        }
-    });
-    console.log("Ricerca eseguita");
-    res.status(200).json(mySerie);
-});
-
-
-
-router.get('/getById/:id', async (req, res) => { //ok
-    let mySerie = await Serie.findById(req.params.id);
-    res.status(200).json( { //200 success
-        self: '/api/v1/serie/' + mySerie.id,
-        titolo: mySerie.titolo,
-        regista: mySerie.regista,
-        etaCons: mySerie.etaCons,
-        valutazione: mySerie.valutazione,
-        copertina: mySerie.copertina,
-        generi: mySerie.generi,
-        piattaforme: mySerie.piattaforme,
-        stagioni: mySerie.stagioni,
-        recensioni: mySerie.recensioni
-    });
-});
-
-
-
 router.post('/create', async (req, res) => { //ok
     let mySerie = await Serie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
     if (!mySerie) {
@@ -114,6 +76,24 @@ router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //ok
     await mySerie.deleteOne();
     console.log('La serie è stata rimossa con successo');
     res.status(204).send(); //204 deleted
+});
+
+
+
+router.get('/:id', async (req, res) => { //ok
+    let mySerie = await Serie.findById(req.params.id);
+    res.status(200).json( { //200 success
+        self: '/api/v1/serie/' + mySerie.id,
+        titolo: mySerie.titolo,
+        regista: mySerie.regista,
+        etaCons: mySerie.etaCons,
+        valutazione: mySerie.valutazione,
+        copertina: mySerie.copertina,
+        generi: mySerie.generi,
+        piattaforme: mySerie.piattaforme,
+        stagioni: mySerie.stagioni,
+        recensioni: mySerie.recensioni
+    });
 });
 
 
