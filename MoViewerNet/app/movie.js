@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Movie = require('./models/movie');
+const Serie = require('./models/serie');
 
 
 
-router.post('/create', async (req, res) => { //ok
+router.post('/create', async (req, res) => { //api per test
     let myMovie = await Movie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
-    if (!myMovie) {
+    let mySerie = await Serie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() }); //non voglio che esistano più contenuti con lo stesso titolo o lo stesso regista, che siano serie o film
+    if (!myMovie && !mySerie) {
         let newMovie = new Movie ({
             titolo: req.body.titolo.toLowerCase(),
             regista: req.body.regista.toLowerCase(),
@@ -18,22 +20,23 @@ router.post('/create', async (req, res) => { //ok
         });
         newMovie = await newMovie.save();
         let movieId = newMovie.id;
-        console.log('Film salvato con successo');
         res.location("/api/v1/movie/" + movieId).status(201).send(); //201 created
+        console.log('Film salvato con successo');
     } else {
-        console.log('Questo film risulta essere già esistente nel database');
-        res.status(409).send(); //409 conflict
+        res.status(409).json({ error: 'Questo titolo risulta essere già esistente nel database' }); //409 conflict
+        console.log('Questo titolo risulta essere già esistente nel database');
     }
 });
 
 
 
-router.get('/getAll', async (req, res) => { //ok
+router.get('/getAll', async (req, res) => {
     let myMovies = await Movie.find({});
     myMovies = myMovies.map( (myMovies) => {
         return {
-            self: '/api/v1/movie/' + myMovies.id,
+            self: '/api/v1/movie/' + myMovies.id, //dati sufficienti alla rappresentazione delle miniature
             titolo: myMovies.titolo,
+            regista: myMovies.regista,
             valutazione: myMovies.valutazione,
             copertina: myMovies.copertina,
             durata: myMovies.durata,
@@ -44,20 +47,21 @@ router.get('/getAll', async (req, res) => { //ok
 
 
 
-router.delete('/deleteAll', async (req, res) => { //ok
+router.delete('/deleteAll', async (req, res) => { //api per test
     await Movie.deleteMany({});
-    console.log('Tutti i film sono stati rimossi con successo dal database');
-    res.status(204).send(); //204 deleted
+    res.status(204).json({ message: 'Ho eliminato tutti i film dal database' }); //204 deleted
+    console.log('Ho eliminato tutti i film dal database');
 });
 
 
 
-router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
+router.get('/getByTitleRegist/:parametro', async (req, res) => {
     let myMovies = await Movie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
     myMovies = myMovies.map( (myMovies) => {
         return {
-            self: '/api/v1/movie/' + myMovies.id,
+            self: '/api/v1/movie/' + myMovies.id, //sufficienti per la rappresentazione delle miniature
             titolo: myMovies.titolo,
+            regista: myMovies.regista,
             valutazione: myMovies.valutazione,
             copertina: myMovies.copertina,
             durata: myMovies.durata,
@@ -68,21 +72,21 @@ router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
 
 
 
-router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //ok
+router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //api per test
     let myMovie = await Movie.findOne({titolo: req.params.titolo.toLowerCase(), regista:req.params.regista.toLowerCase()});
     if(!myMovie) {
-        res.status(404).send(); //404 not found
+        res.status(404).json({ error: 'Il film che si vuole eliminare non esiste' }); //404 not found
         console.log('Il film che si vuole eliminare non esiste');
         return;
     }
     await myMovie.deleteOne();
+    res.status(204).json({ message: 'Il film è stato rimosso con successo' }); //204 deleted
     console.log('Il film è stato rimosso con successo');
-    res.status(204).send(); //204 deleted
 });
 
 
 
-router.get('/:id', async (req, res) => { //ok
+router.get('/:id', async (req, res) => {
     let myMovie = await Movie.findById(req.params.id);
     res.status(200).json( { //200 success
         self: '/api/v1/movie/' + myMovie.id,
@@ -94,7 +98,6 @@ router.get('/:id', async (req, res) => { //ok
         generi: myMovie.generi,
         piattaforme: myMovie.piattaforme,
         durata: myMovie.durata,
-        recensioni: myMovie.recensioni
     });
 });
 

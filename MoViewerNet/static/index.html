@@ -42,16 +42,19 @@
 
     <br /><h3>Modifica la tua clausola di visibilità:</h3>
     <span>Ora sei: </span>
-    <span id="privacy">non loggato >>> </span>
-    <form action="api/v1/user" method="patch" name="privacyform" id="privacyform">
-      <br />
-      <input type="radio" id="privato" name="privacy" value="privato" checked>
-      <label for="privato">privato</label><br>
-      <input type="radio" id="pubblico" name="privacy" value="pubblico">
-      <label for="pubblico">pubblico</label><br>
-      <br /><button type="button" onclick="changePrivacy()">Cambia</button>
-      <br />
+    <span id="privacy">utente non loggato </span>
+    <br />
+    <form id="privacyForm">
+      <label><input type="radio" name="privacyForm" value="profilo privato">privato</label>
+      <label><input type="radio" name="privacyForm" value="profilo pubblico" checked>pubblico</label>
     </form>
+    <br /><button type="button" onclick="changePrivacy()">Cambia</button>
+    <br />
+
+    <br /><br /><h3>Elimina tutti gli utenti (API di test):</h3>
+    <span>Feedback: </span>
+    <span id="feedbackDelete"></span>
+    <br /><button type="button" onclick="eliminaUtenti()">Elimina</button>
 
     <br /><br /><br /><h3>Fai una donazione:</h3>
     <button type="button" onclick="donazione()">Dona</button>
@@ -85,6 +88,77 @@
       <button type="button" onclick="trovaFilmTitoloRegista()">Cerca</button>
     </form>
     <ul id="moviesTR"></ul>
+
+    <br /><br /><h3>Elimina tutti i film (API di test):</h3>
+    <span>Feedback: </span>
+    <span id="feedbackDeleteMovie"></span>
+    <br /><button type="button" onclick="eliminaFilm()">Elimina</button>
+
+
+
+    <br /><br /><br /><br /><br /><br /><br /><hr>
+    <h2>API relative alle serie:</h2> <br />
+
+    <h3>Inserisci una nuova serie (API di test):</h3>
+    <form action="api/v1/serie" method="post" name="serieform" id="serieform">
+      <span>Feedback: </span>
+      <span id="serie"></span>
+      <br /><input name="titolo" value="titolo" id="serieTitolo" />
+      <br /><input name="regista" value="regista" id="serieRegista" />
+      <br /><input name="età consiglia" value="età consigliata" id="serieEtaCons" />
+      <br /><input name="copertina" value="copertina" id="serieCopertina" />
+      <br /><input name="generi" value="generi" id="serieGeneri" />
+      <br /><input name="piattaforme" value="piattaforme" id="seriePiattaforme" />
+      <button type="button" onclick="putSerie()">Inserisci</button>
+      <br />
+    </form>
+
+    <br /><h3>Visualizza tutte le serie:</h3>
+    <ul id="series"></ul>
+
+    <br /><h3>Cerca una serie in base a titolo o regista:</h3>
+    <form action="api/v1/serie" method="get" name="serieTRform" id="serieTRform">
+      <input name="titolo" value="titolo" id="serieTRTitolo" />
+      <button type="button" onclick="trovaSerieTitoloRegista()">Cerca</button>
+    </form>
+    <ul id="seriesTR"></ul>
+
+    <br /><br /><h3>Elimina tutte le serie (API di test):</h3>
+    <span>Feedback: </span>
+    <span id="feedbackDeleteSerie"></span>
+    <br /><button type="button" onclick="eliminaSerie()">Elimina</button>
+
+
+
+    <br /><br /><br /><br /><br /><br /><br /><hr>
+    <h2>API relative alle recensioni:</h2> <br />
+
+    <h3>Inserisci una nuova recensione:</h3>
+    <form action="api/v1/review" method="post" name="reviewForm" id="reviewForm">
+      <span>Feedback: </span>
+      <span id="reviewFeedback"></span>
+      <br /><input name="titolo" value="titolo" id="reviewTitolo" />
+      <br /><input name="regista" value="regista" id="reviewRegista" />
+      <br /><input name="voto" value="voto" id="reviewVoto" />
+      <br /><input name="testo" value="testo" id="reviewTesto" />
+      <button type="button" onclick="putReview()">Invia</button>
+      <br />
+    </form>
+
+    <br /><h3>Visualizza tutte le recensioni:</h3>
+    <ul id="reviews"></ul>
+
+
+
+    <br /><br /><br /><br /><br /><br /><br /><hr>
+    <h2>Altre funzionalità:</h2> <br />
+
+    <h3>Ricerca globale (tra serie e film) in base a titolo o regista:</h3>
+    <form name="globalForm" id="globalForm">
+      <input name="titolo" value="titolo" id="globalTitolo" />
+      <button type="button" onclick="trovaTitoloRegistaGlobale()">Cerca</button>
+    </form>
+    <ul id="globale"></ul>
 
     
     

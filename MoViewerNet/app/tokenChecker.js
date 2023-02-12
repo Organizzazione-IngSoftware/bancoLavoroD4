@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const tokenChecker = function(req, res, next) {
 	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.header('x-auth-token');
-	console.log(token);
 	if (!token) {
 		console.log("no token");
 		return res.status(401).send({ 

@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Serie = require('./models/serie');
+const Movie = require('./models/movie');
 
 
 
-router.post('/create', async (req, res) => { //ok
-    let mySerie = await Serie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
-    if (!mySerie) {
+router.post('/create', async (req, res) => { //api per test
+    let myMovie = await Movie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() });
+    let mySerie = await Serie.findOne({ titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() }); //non voglio che esistano più contenuti con lo stesso titolo o lo stesso regista, che siano serie o film
+    if (!myMovie && !mySerie) {
         let newSerie = new Serie ({
             titolo: req.body.titolo.toLowerCase(),
             regista: req.body.regista.toLowerCase(),
@@ -18,22 +20,23 @@ router.post('/create', async (req, res) => { //ok
         });
         newSerie = await newSerie.save();
         let serieId = newSerie.id;
-        console.log('Serie salvata con successo');
         res.location("/api/v1/serie/" + serieId).status(201).send(); //201 created
+        console.log('Serie salvata con successo');
     } else {
-        console.log('Questa serie risulta essere già esistente nel database');
-        res.status(409).send(); //409 conflict
+        res.status(409).json({ error: 'Questo titolo risulta essere già esistente nel database' }); //409 conflict
+        console.log('Questo titolo risulta essere già esistente nel database');
     }
 });
 
 
 
-router.get('/getAll', async (req, res) => { //ok
+router.get('/getAll', async (req, res) => {
     let mySeries = await Serie.find({});
     mySeries = mySeries.map( (mySeries) => {
         return {
-            self: '/api/v1/serie/' + mySeries.id,
+            self: '/api/v1/serie/' + mySeries.id, //dati sufficienti alla rappresentazione delle miniature
             titolo: mySeries.titolo,
+            regista: mySeries.regista,
             valutazione: mySeries.valutazione,
             copertina: mySeries.copertina,
         };
@@ -43,20 +46,21 @@ router.get('/getAll', async (req, res) => { //ok
 
 
 
-router.delete('/deleteAll', async (req, res) => { //ok
+router.delete('/deleteAll', async (req, res) => { //api per test
     await Serie.deleteMany({});
-    console.log('Tutte le serie sono state rimosse con successo dal database');
-    res.status(204).send(); //204 deleted
+    res.status(204).json({ message: 'Ho eliminato tutte le serie dal database' }); //204 deleted
+    console.log('Ho eliminato tutte le serie dal database');
 });
 
 
 
-router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
+router.get('/getByTitleRegist/:parametro', async (req, res) => {
     let mySeries = await Serie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
     mySeries = mySeries.map( (mySeries) => {
         return {
-            self: '/api/v1/serie/' + mySeries.id,
+            self: '/api/v1/serie/' + mySeries.id, //sufficienti per la rappresentazione delle miniature
             titolo: mySeries.titolo,
+            regista: mySeries.regista,
             valutazione: mySeries.valutazione,
             copertina: mySeries.copertina,
         };
@@ -66,21 +70,21 @@ router.get('/getByTitleRegist/:parametro', async (req, res) => { //ok
 
 
 
-router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //ok
+router.delete('/deleteOne/:titolo/:regista', async (req, res) => { //api per test
     let mySerie = await Serie.findOne({titolo: req.params.titolo.toLowerCase(), regista:req.params.regista.toLowerCase()});
     if(!mySerie) {
-        res.status(404).send(); //404 not found
+        res.status(404).json({ error: 'La serie che si vuole eliminare non esiste' }); //404 not found
         console.log('La serie che si vuole eliminare non esiste');
         return;
     }
     await mySerie.deleteOne();
+    res.status(204).json({ message: 'La serie è stata rimossa con successo' }); //204 deleted
     console.log('La serie è stata rimossa con successo');
-    res.status(204).send(); //204 deleted
 });
 
 
 
-router.get('/:id', async (req, res) => { //ok
+router.get('/:id', async (req, res) => {
     let mySerie = await Serie.findById(req.params.id);
     res.status(200).json( { //200 success
         self: '/api/v1/serie/' + mySerie.id,
@@ -92,7 +96,6 @@ router.get('/:id', async (req, res) => { //ok
         generi: mySerie.generi,
         piattaforme: mySerie.piattaforme,
         stagioni: mySerie.stagioni,
-        recensioni: mySerie.recensioni
     });
 });
 

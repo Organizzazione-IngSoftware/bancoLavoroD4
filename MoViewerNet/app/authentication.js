@@ -9,12 +9,12 @@ router.post('', async function(req, res) {
 	let user = await User.findOne({$or: [{ mail: req.body.email }, { username: req.body.email }]}).exec();
 	if (!user) {
 		res.json({ success: false, message: 'Authentication failed. User not found.' });
-		console.log("no user");
+		console.log("Authentication failed. User not found");
 		return;
 	}
 	if (user.password != req.body.password) {
-		console.log("no password");
 		res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+		console.log("Authentication failed. Wrong password.");
 		return;
 	}
 	var payload = {

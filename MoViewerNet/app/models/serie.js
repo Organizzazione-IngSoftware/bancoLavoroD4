@@ -10,7 +10,6 @@ const SerieSchema = new mongoose.Schema ({
     generi: { type: [String], required: true},
     piattaforme: { type: [String], required: true},
     stagioni: { type: [[Number]], required: true},
-    recensioni: { type: [[]]},
 });
 
 const Serie = mongoose.model('Serie', SerieSchema);

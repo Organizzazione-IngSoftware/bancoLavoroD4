@@ -12,6 +12,7 @@ const tokenChecker = require('./tokenChecker.js');
 const movie = require('./movie.js');
 const serie = require('./serie.js');
 const user = require('./user.js');
+const review = require('./review.js');
 
 
 app.use(express.json());
@@ -39,12 +40,13 @@ app.use('/api/v1/serie/deleteAll', tokenChecker);
 app.use('/api/v1/serie/deleteOne', tokenChecker);
 app.use('/api/v1/user/setMyPrivacy', tokenChecker);
 app.use('/api/v1/user/deleteAll', tokenChecker);
-app.use('/api/v1/user/deleteOne', tokenChecker);
+app.use('/api/v1/review/makeReview', tokenChecker);
 
 
 app.use('/api/v1/movie', movie);
 app.use('/api/v1/serie', serie);
 app.use('/api/v1/user', user);
+app.use('/api/v1/review', review);
 
 
 app.use((req, res) => {

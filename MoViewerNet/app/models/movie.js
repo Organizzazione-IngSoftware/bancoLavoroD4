@@ -10,7 +10,6 @@ const MovieSchema = new mongoose.Schema ({
     durata: { type: String, required: true},
     generi: { type: [String], required: true},
     piattaforme: { type: [String], required: true},
-    recensioni: { type: [[]]},
 });
 
 const Movie = mongoose.model('Movie', MovieSchema);
