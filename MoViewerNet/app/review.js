@@ -19,7 +19,7 @@ router.post('/makeReview', async (req, res) => {
         console.log("Questo utente o questo titolo non sono esistenti");
         return;
     }
-    if(req.body.voto<1 || req.body.voto>5) {
+    if(typeof req.body.voto != "number" || req.body.voto<1 || req.body.voto>5) {
         res.status(400).json({ error: 'Il voto inserito non è accettabile' });; //400 bad request
         console.log("Il voto inserito non è accettabile");
         return;

@@ -42,7 +42,7 @@ function registrati() {  //!!!
         body: JSON.stringify( { mail: mail, username: username, password: password, passwordSupp: passwordSupp } ),
     })
     .then((res) => {
-        if(res.status == 400) document.getElementById("signUp").textContent = "email non valida o password diverse";
+        if(res.status == 400) document.getElementById("signUp").textContent = "mail o password non conformi, password di supporto diversa o username mancante";
         else if(res.status == 409) document.getElementById("signUp").textContent = "esiste già un utente con queste credenziali";
         else document.getElementById("signUp").textContent = "utente registrato con successo";
         console.log(res);
@@ -379,7 +379,7 @@ function putReview() {
     var titolo = document.getElementById("reviewTitolo").value;
     var regista = document.getElementById("reviewRegista").value;
     var mailAutore = loggedUser.email;
-    var voto = document.getElementById("reviewVoto").value;
+    var voto = parseInt(document.getElementById("reviewVoto").value, 10);
     var testo = document.getElementById("reviewTesto").value;
     if(!testo) testo = "";
     fetch('../api/v1/review/makeReview', {

@@ -9,7 +9,7 @@ const User = require('./models/user');
 
 router.post('/signUp', async (req, res) => {
     let myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
-    if (!myUser && req.body.password==req.body.passwordSupp) {
+    if (!myUser && req.body.password==req.body.passwordSupp && req.body.password.length>=8 && req.body.username) {
         let newUser = new User ({
             mail: req.body.mail,
             username: req.body.username,
@@ -30,7 +30,13 @@ router.post('/signUp', async (req, res) => {
         if(req.body.password != req.body.passwordSupp) {
             res.status(400).json({ error: 'Hai inserito due password diverse' }); //400 bad request
             console.log("Hai inserito due password diverse");
-        } 
+        } else if(req.body.password.length < 8) {
+            res.status(400).json({ error: 'Hai inserito una password non conforme' }); //400 bad request
+            console.log("Hai inserito una password non conforme");
+        } else if(!req.body.username) {
+            res.status(400).json({ error: 'Non hai inserito un username' }); //400 bad request
+            console.log("Non hai inserito un username");
+        }
         else {
             res.status(409).json({ error: 'Nel database esiste già un utente che utilizza una di queste credenziali' }); //409 conflict
             console.log("Nel database esiste già un utente che utilizza una di queste credenziali");
