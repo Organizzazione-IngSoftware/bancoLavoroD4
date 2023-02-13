@@ -10,11 +10,23 @@
         }
     },
     "host": "localhost:8080",
-    "basePath": "/",
+    "basePath": "/api/v1",
     "tags": [
         {
             "name":"user",
-            "description":"APIs per gli utenti del sistema"
+            "description":"APIs for the users"
+        },
+        {
+            "name":"movie",
+            "description":"APIs for the movies"
+        },
+        {
+            "name":"serie",
+            "description":"APIs for the series"
+        },
+        {
+            "name":"review",
+            "description":"APIs for the reviews"
         }
     ],
     "schemes": [
@@ -26,34 +38,889 @@
     "produces": [
         "application/json"
     ],
+
+
+
+
+
+
+
+
+
+
     "paths": {
-        "/api/v1/movie": {
-            "get": {
-                "tags": [
-                    "movie"
+
+
+
+        "/movie/create": {
+            "post": {
+                "tags": ["movie"],
+                "summary": "Insert a movie in the database",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "body",
+                        "description": "The title of the movie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "body",
+                        "description": "Name and surname of the movie's regist",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "etaCons",
+                        "in": "body",
+                        "description": "The recommended age to watch the movie",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "copertina",
+                        "in": "body",
+                        "description": "A pic that represents the movie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "durata",
+                        "in": "body",
+                        "description": "How long the movie lasts, in minutes",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "generi",
+                        "in": "body",
+                        "description": "A list of the genres of the movie",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "piattaforme",
+                        "in": "body",
+                        "description": "Where you can watch the movie: Netflix, Prime Video ecc...",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
                 ],
-                "summary": "Get all movies in the database",
+                "responses": {
+                    "201": {
+                        "description": "The movie has bbeen inserted into the database"
+                    },
+                    "409": {
+                        "description": "This title already exists in the database"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/movie/getAll": {
+            "get": {
+                "tags": ["movie"],
+                "summary": "Get all movies from the database",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Extraction of the movies completed",
+                        "schema": {
+                            "$ref": "#/definitions/miniaturaMovie"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/movie/deleteAll": {
+            "delete": {
+                "tags": ["movie"],
+                "summary": "Delete all movies from the database",
+                "responses": {
+                    "204": {
+                        "description": "All the movies has been deleted"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/movie/getByTitleRegist": {
+            "get": {
+                "tags": ["movie"],
+                "summary": "Get a list of movies with a specific title or a specific regist",
+                "parameters": [
+                    {
+                        "name": "param",
+                        "in": "header",
+                        "description": "The title of the movie or the regist",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The movies have been extracted from the database",
+                        "schema": {
+                            "$ref": "#/definitions/miniaturaMovie"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/movie/deleteOne": {
+            "delete": {
+                "tags": ["movie"],
+                "summary": "delete a movie with a specific title or a specific regist",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "header",
+                        "description": "The title of the movie",
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "header",
+                        "description": "The regist of the movie",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The movie have been deleted from the database"
+                    },
+                    "404": {
+                        "description": "The movie you want to delete doesn't exists"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/movie": {
+            "get": {
+                "tags": ["movie"],
+                "summary": "find a movie with a specific id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "header",
+                        "description": "The id of the movie",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The movie have been extracted from the database",
                         "schema": {
                             "$ref": "#/definitions/movie"
                         }
                     }
                 }
             }
+        },
+
+
+
+        "/serie/create": {
+            "post": {
+                "tags": ["serie"],
+                "summary": "Insert a serie in the database",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "body",
+                        "description": "The title of the serie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "body",
+                        "description": "Name and surname of the serie's regist",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "etaCons",
+                        "in": "body",
+                        "description": "The recommended age to watch the serie",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "copertina",
+                        "in": "body",
+                        "description": "A pic that represents the serie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "stagioni",
+                        "in": "body",
+                        "description": "The details of the seasons",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "generi",
+                        "in": "body",
+                        "description": "A list of the genres of the serie",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "piattaforme",
+                        "in": "body",
+                        "description": "Where you can watch the serie: Netflix, Prime Video ecc...",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The serie has bbeen inserted into the database"
+                    },
+                    "409": {
+                        "description": "This element already exists in the database"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/serie/getAll": {
+            "get": {
+                "tags": ["serie"],
+                "summary": "Get all series from the database",
+                "responses": {
+                    "200": {
+                        "description": "Extraction of the serie completed",
+                        "schema": {
+                            "$ref": "#/definitions/miniaturaSerie"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/serie/deleteAll": {
+            "delete": {
+                "tags": ["serie"],
+                "summary": "Delete all series from the database",
+                "responses": {
+                    "204": {
+                        "description": "All the series has been deleted"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/serie/getByTitleRegist": {
+            "get": {
+                "tags": ["serie"],
+                "summary": "Get a list of series with a specific title or a specific regist",
+                "parameters": [
+                    {
+                        "name": "param",
+                        "in": "header",
+                        "description": "The serie of the movie or the regist",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The series have been extracted from the database",
+                        "schema": {
+                            "$ref": "#/definitions/miniaturaSerie"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/serie/deleteOne": {
+            "delete": {
+                "tags": ["serie"],
+                "summary": "delete a serie with a specific title or a specific regist",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "header",
+                        "description": "The title of the serie",
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "header",
+                        "description": "The regist of the serie",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The serie have been deleted from the database"
+                    },
+                    "404": {
+                        "description": "The serie you want to delete doesn't exists"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/serie": {
+            "get": {
+                "tags": ["serie"],
+                "summary": "find a serie with a specific id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "header",
+                        "description": "The id of the serie",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The serie have been extracted from the database",
+                        "schema": {
+                            "$ref": "#/definitions/serie"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/user/signUp": {
+            "post": {
+                "tags": ["user"],
+                "summary": "Insert a user in the database",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "body",
+                        "description": "The username of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "mail",
+                        "in": "body",
+                        "description": "The mail of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "body",
+                        "description": "The password of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "passwordSupp",
+                        "in": "body",
+                        "description": "The same password, to check if the user knows what he wrote",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "The mail is not formatted in the right way, or you passed two different passwords"
+                    },
+                    "201": {
+                        "description": "This user has been inserted into the database"
+                    },
+                    "409": {
+                        "description": "There is already an user who uses the credential (mail or password) you passed"
+                    }
+                }
+            }
+        },
+
+
+
+        "/user/findOne": {
+            "get": {
+                "tags": ["user"],
+                "summary": "Get a specific user passing the username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "header",
+                        "description": "The username of the user",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "I can't find a user with the username you passed"
+                    },
+                    "200": {
+                        "description": "I found the user you wanted",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/user/setMyPrivacy": {
+            "patch": {
+                "tags": ["user"],
+                "summary": "Change the privacy attribute of an user",
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "body",
+                        "description": "The mail of the user",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "isPrivate",
+                        "in": "body",
+                        "description": "The new privacy attribute",
+                        "required": true,
+                        "type": "bool"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "I can't find a user with the username you passed"
+                    },
+                    "201": {
+                        "description": "I changed the privacy attribute of the user"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/user/deleteAll": {
+            "delete": {
+                "tags": ["user"],
+                "summary": "Delete all the users",
+                "responses": {
+                    "204": {
+                        "description": "I deleted all the users succesfully"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/user/donation": {
+            "get": {
+                "tags": ["user"],
+                "summary": "Open the donation PayPal page",
+                "responses": {
+                    "200": {
+                        "description": "I opened the page succesfully"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/user": {
+            "get": {
+                "tags": ["user"],
+                "summary": "find a user with a specific id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "header",
+                        "description": "The id of the user",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The user have been extracted from the database",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                }
+            }
+        },
+
+
+
+        "/review/makeReview": {
+            "post": {
+                "tags": ["review"],
+                "summary": "Insert a review in the database",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "body",
+                        "description": "The title of the movie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "body",
+                        "description": "The regist of the movie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "mailAutore",
+                        "in": "body",
+                        "description": "The mail of the review's author",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "voto",
+                        "in": "body",
+                        "description": "The review's score (from 1 to 5)",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "testo",
+                        "in": "body",
+                        "description": "The text of the review",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "The author user or the content you want to review doesn't exist in the database"
+                    },
+                    "400": {
+                        "description": "The review's score is not accettable"
+                    },
+                    "201": {
+                        "description": "This review has been inserted into the database"
+                    },
+                    "409": {
+                        "description": "This user already wrote a review for this content"
+                    },
+                    "401": {
+                        "description": "You are not authorized"
+                    }
+                }
+            }
+        },
+
+
+
+        "/review/refreshPunteggio": {
+            "patch": {
+                "tags": ["review"],
+                "summary": "Refresh a content's score",
+                "parameters": [
+                    {
+                        "name": "titolo",
+                        "in": "body",
+                        "description": "The title of the movie",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "regista",
+                        "in": "body",
+                        "description": "The regist of the movie",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "The content doesn't exist in the database"
+                    },
+                    "201": {
+                        "description": "The score have been refreshed"
+                    }
+                }
+            }
+        },
+
+
+
+        "/review/getAll": {
+            "get": {
+                "tags": ["review"],
+                "summary": "Get all reviews from the database",
+                "responses": {
+                    "200": {
+                        "description": "Extraction of the reviews completed",
+                        "schema": {
+                            "$ref": "#/definitions/review"
+                        }
+                    }
+                }
+            }
         }
+    
+    
+    
     },
+
+
+
+
+
+
+
+
+
+
     "definitions": {
-        "movie": {
+
+        "miniaturaMovie": {
             "required": [
-                "titolo"
+                "titolo", "regista", "copertina", "durata"
             ],
             "properties": {
+                "self": {
+                    "type": "string"
+                },
                 "titolo": {
+                    "type": "string"
+                },
+                "regista": {
+                    "type": "string"
+                },
+                "copertina": {
+                    "type": "string"
+                },
+                "durata": {
+                    "type": "string"
+                },
+                "valutazione": {
+                    "type": "integer"
+                }
+            }
+        },
+
+        "movie": {
+            "required": [
+                "titolo", "regista", "copertina", "durata", "generi", "piattaforme"
+            ],
+            "properties": {
+                "self": {
+                    "type": "string"
+                },
+                "titolo": {
+                    "type": "string"
+                },
+                "regista": {
+                    "type": "string"
+                },
+                "etaCons": {
+                    "type": "string"
+                },
+                "valutazione": {
+                    "type": "number"
+                },
+                "copertina": {
+                    "type": "string"
+                },
+                "generi": {
+                    "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                },
+                "piattaforme": {
+                    "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                },
+                "durata": {
+                    "type": "string"
+                }
+            }
+        },
+
+        "miniaturaSerie": {
+            "required": [
+                "titolo", "regista", "copertina"
+            ],
+            "properties": {
+                "self": {
+                    "type": "string"
+                },
+                "titolo": {
+                    "type": "string"
+                },
+                "regista": {
+                    "type": "string"
+                },
+                "copertina": {
+                    "type": "string"
+                },
+                "valutazione": {
+                    "type": "integer"
+                }
+            }
+        },
+
+        "serie": {
+            "required": [
+                "titolo", "regista", "copertina", "stagioni", "generi", "piattaforme"
+            ],
+            "properties": {
+                "self": {
+                    "type": "string"
+                },
+                "titolo": {
+                    "type": "string"
+                },
+                "regista": {
+                    "type": "string"
+                },
+                "etaCons": {
+                    "type": "string"
+                },
+                "valutazione": {
+                    "type": "number"
+                },
+                "copertina": {
+                    "type": "string"
+                },
+                "generi": {
+                    "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                },
+                "piattaforme": {
+                    "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                },
+                "stagioni": {
+                    "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                }
+            }
+        },
+
+        "user": {
+            "required": [
+                "username", "isPrivate"
+            ],
+            "properties": {
+                "self": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "string"
+                }            
+            }
+        },
+
+        "review": {
+            "required": [
+                "titolo", "regista", "mailAutore", "voto"
+            ],
+            "properties": {
+                "self": {
+                    "type": "string"
+                },
+                "titolo": {
+                    "type": "string"
+                },
+                "regista": {
+                    "type": "string"
+                },
+                "mailAutore": {
+                    "type": "string"
+                },
+                "voto": {
+                    "type": "integer"
+                },
+                "testo": {
                     "type": "string"
                 }
             }
         }
+
     }
 }

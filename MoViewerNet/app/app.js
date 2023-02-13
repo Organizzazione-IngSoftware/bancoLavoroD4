@@ -40,6 +40,7 @@ app.use('/api/v1/serie/deleteAll', tokenChecker);
 app.use('/api/v1/serie/deleteOne', tokenChecker);
 app.use('/api/v1/user/setMyPrivacy', tokenChecker);
 app.use('/api/v1/user/deleteAll', tokenChecker);
+app.use('/api/v1/user/donation', tokenChecker);
 app.use('/api/v1/review/makeReview', tokenChecker);
 
 

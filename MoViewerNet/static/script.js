@@ -123,9 +123,16 @@ function donazione() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'x-access-token': loggedUser.token
         },
     })
     .then((res) => {
+        if(res.status == 401) {
+            document.getElementById("feedbackDonazione").textContent = "non autorizzato";
+        }
+        else {
+            document.getElementById("feedbackDonazione").textContent = "pagina aperta";
+        }
         console.log(res);
         return;
     })

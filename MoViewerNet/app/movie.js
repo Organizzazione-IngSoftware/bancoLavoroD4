@@ -56,7 +56,7 @@ router.delete('/deleteAll', async (req, res) => { //api per test
 
 
 router.get('/getByTitleRegist/:parametro', async (req, res) => {
-    let myMovies = await Movie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
+    let myMovies = await Movie.find({$or: [{ titolo: {"$regex": req.params.parametro.toLowerCase(), "$options": "i"} }, { regista: req.params.parametro.toLowerCase() }]});
     myMovies = myMovies.map( (myMovies) => {
         return {
             self: '/api/v1/movie/' + myMovies.id, //sufficienti per la rappresentazione delle miniature

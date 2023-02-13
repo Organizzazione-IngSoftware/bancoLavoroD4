@@ -14,7 +14,7 @@ router.post('/signUp', async (req, res) => {
             mail: req.body.mail,
             username: req.body.username,
             password: req.body.password,
-            isPrivate: false, //default
+            isPrivate: true, //default
         });
         if(!newUser.mail || typeof newUser.mail != 'string' || !checkIfEmailInString(newUser.mail)) {
             res.status(400).json({ error: 'Quella inserita non risulta essere una mail valida' }); //400 bad request

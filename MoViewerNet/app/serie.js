@@ -55,7 +55,7 @@ router.delete('/deleteAll', async (req, res) => { //api per test
 
 
 router.get('/getByTitleRegist/:parametro', async (req, res) => {
-    let mySeries = await Serie.find({$or: [{ titolo: req.params.parametro.toLowerCase() }, { regista: req.params.parametro.toLowerCase() }]});
+    let mySeries = await Serie.find({$or: [{ titolo: {"$regex": req.params.parametro.toLowerCase(), "$options": "i"} }, { regista: req.params.parametro.toLowerCase() }]});
     mySeries = mySeries.map( (mySeries) => {
         return {
             self: '/api/v1/serie/' + mySeries.id, //sufficienti per la rappresentazione delle miniature

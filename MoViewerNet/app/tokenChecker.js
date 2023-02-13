@@ -13,7 +13,7 @@ const tokenChecker = function(req, res, next) {
 	}
 	jwt.verify(token, process.env.SUPER_SECRET, function(err, decoded) {			
 		if (err) {
-			return res.status(403).send({
+			return res.status(401).send({
 				success: false,
 				message: 'Failed to authenticate token.'
 			});		
