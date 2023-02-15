@@ -1,3 +1,16 @@
 {
-    "collectCoverage":true
+    "collectCoverage":true,
+    "coverageThreshold": {
+        "global": {
+            "branches":95,
+            "functions":100,
+            "lines":100
+        },
+        "./app/movie.js": {
+            "branches":95,
+            "functions":100,
+            "lines":100
+        }
+    },
+    "testTimeout":100
 }
