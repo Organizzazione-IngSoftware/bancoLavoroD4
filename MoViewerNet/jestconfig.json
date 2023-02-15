@@ -12,5 +12,5 @@
             "lines":100
         }
     },
-    "testTimeout":100
+    "testTimeout":1000
 }
