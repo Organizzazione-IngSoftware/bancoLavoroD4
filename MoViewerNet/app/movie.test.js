@@ -1,3 +1,0 @@
-const movie = require('./movie');
-
- 
