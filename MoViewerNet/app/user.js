@@ -8,6 +8,8 @@ const User = require('./models/user');
 
 
 router.post('/signUp', async (req, res) => {
+    console.log(req.body.mail + " " + req.body.username + " " + req.body.password + " " + req.body.passwordSupp);
+
     let myUser = await User.findOne({ $or: [{ mail: req.body.mail }, { username: req.body.username }] });
     if (!myUser && req.body.password==req.body.passwordSupp && req.body.password.length>=8 && req.body.username) {
         let newUser = new User ({
