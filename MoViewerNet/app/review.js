@@ -11,7 +11,7 @@ const Review = require('./models/review');
 
 router.post('/makeReview', async (req, res) => {
     let utenteAutore = await User.findOne( { mail: req.body.mailAutore } );
-    let contenuto = await Movie.findOne( { titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() } );
+    let contenuto = await Movie.find( { titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() } );
     if(!contenuto)
         contenuto = await Serie.findOne( { titolo: req.body.titolo.toLowerCase(), regista: req.body.regista.toLowerCase() } );
     if(!utenteAutore || !contenuto) {

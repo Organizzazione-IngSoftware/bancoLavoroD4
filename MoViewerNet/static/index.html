@@ -51,11 +51,6 @@
     <br /><button type="button" onclick="changePrivacy()">Cambia</button>
     <br />
 
-    <br /><br /><h3>Elimina tutti gli utenti (API di test):</h3>
-    <span>Feedback: </span>
-    <span id="feedbackDelete"></span>
-    <br /><button type="button" onclick="eliminaUtenti()">Elimina</button>
-
     <br /><br /><br /><h3>Fai una donazione:</h3>
     <span>Feedback: </span>
     <span id="feedbackDonazione"></span>
@@ -65,21 +60,6 @@
 
     <br /><br /><br /><br /><br /><br /><br /><hr>
     <h2>API relative ai film:</h2> <br />
-
-    <h3>Inserisci un nuovo film (API di test):</h3>
-    <form action="api/v1/movie" method="post" name="movieform" id="movieform">
-      <span>Feedback: </span>
-      <span id="movie"></span>
-      <br /><input name="titolo" value="titolo" id="movieTitolo" />
-      <br /><input name="regista" value="regista" id="movieRegista" />
-      <br /><input name="età consiglia" value="età consigliata" id="movieEtaCons" />
-      <br /><input name="copertina" value="copertina" id="movieCopertina" />
-      <br /><input name="durata" value="durata" id="movieDurata" />
-      <br /><input name="generi" value="generi" id="movieGeneri" />
-      <br /><input name="piattaforme" value="piattaforme" id="moviePiattaforme" />
-      <button type="button" onclick="putMovie()">Inserisci</button>
-      <br />
-    </form>
 
     <br /><h3>Visualizza tutti i film:</h3>
     <ul id="movies"></ul>
@@ -91,29 +71,10 @@
     </form>
     <ul id="moviesTR"></ul>
 
-    <br /><br /><h3>Elimina tutti i film (API di test):</h3>
-    <span>Feedback: </span>
-    <span id="feedbackDeleteMovie"></span>
-    <br /><button type="button" onclick="eliminaFilm()">Elimina</button>
-
 
 
     <br /><br /><br /><br /><br /><br /><br /><hr>
     <h2>API relative alle serie:</h2> <br />
-
-    <h3>Inserisci una nuova serie (API di test):</h3>
-    <form action="api/v1/serie" method="post" name="serieform" id="serieform">
-      <span>Feedback: </span>
-      <span id="serie"></span>
-      <br /><input name="titolo" value="titolo" id="serieTitolo" />
-      <br /><input name="regista" value="regista" id="serieRegista" />
-      <br /><input name="età consiglia" value="età consigliata" id="serieEtaCons" />
-      <br /><input name="copertina" value="copertina" id="serieCopertina" />
-      <br /><input name="generi" value="generi" id="serieGeneri" />
-      <br /><input name="piattaforme" value="piattaforme" id="seriePiattaforme" />
-      <button type="button" onclick="putSerie()">Inserisci</button>
-      <br />
-    </form>
 
     <br /><h3>Visualizza tutte le serie:</h3>
     <ul id="series"></ul>
@@ -125,10 +86,17 @@
     </form>
     <ul id="seriesTR"></ul>
 
-    <br /><br /><h3>Elimina tutte le serie (API di test):</h3>
-    <span>Feedback: </span>
-    <span id="feedbackDeleteSerie"></span>
-    <br /><button type="button" onclick="eliminaSerie()">Elimina</button>
+
+
+    <br /><br /><br /><br /><br /><br /><br /><hr>
+    <h2>Altre funzionalità:</h2> <br />
+
+    <h3>Ricerca globale (tra serie e film) in base a titolo o regista:</h3>
+    <form name="globalForm" id="globalForm">
+      <input name="titolo" value="titolo" id="globalTitolo" />
+      <button type="button" onclick="trovaTitoloRegistaGlobale()">Cerca</button>
+    </form>
+    <ul id="globale"></ul>
 
 
 
@@ -150,24 +118,8 @@
     <br /><h3>Visualizza tutte le recensioni:</h3>
     <ul id="reviews"></ul>
 
-
-
-    <br /><br /><br /><br /><br /><br /><br /><hr>
-    <h2>Altre funzionalità:</h2> <br />
-
-    <h3>Ricerca globale (tra serie e film) in base a titolo o regista:</h3>
-    <form name="globalForm" id="globalForm">
-      <input name="titolo" value="titolo" id="globalTitolo" />
-      <button type="button" onclick="trovaTitoloRegistaGlobale()">Cerca</button>
-    </form>
-    <ul id="globale"></ul>
-
     
     
-    <br /><br /><br /><br /><br /><hr><h3>Tutte le API con scritto accanto API di test
-    <br />non fanno parte dell'applicazione e andrebbero rimosse.
-    <br />Sono state lasciate all'interno della pagina per poter testare
-    <br />le varie API in maniera più semplice e veloce</h3>
     <script src="script.js"></script>
   </body>
 </html>

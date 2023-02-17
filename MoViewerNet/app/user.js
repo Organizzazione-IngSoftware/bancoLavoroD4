@@ -48,8 +48,8 @@ router.post('/signUp', async (req, res) => {
 
 
 
-router.get('/findOne/:username', async (req, res) => {
-    let myUser = await User.find({username: req.params.username});
+router.get('/find/:username', async (req, res) => {
+    let myUser = await User.find({ username: {"$regex": req.params.username, "$options": "i"} });
     if(!myUser) {
         res.status(404).json({ error: 'Non ho trovato un utente con questo username' }); //404 not found
         console.log("Non ho trovato un utente con questo username");
@@ -81,14 +81,6 @@ router.patch('/setMyPrivacy', async (req, res) => {
         res.status(404).json({ error: 'Non esiste nel database un utente con questo username' }); //404 not found
         console.log('Non esiste nel database un utente con questo username');
     }
-});
-
-
-
-router.delete('/deleteAll', async (req, res) => { //api per test
-    await User.deleteMany({});
-    res.status(204).json( {message: 'Ho rimosso tutti gli utenti dal database'}); //204 deleted
-    console.log('Ho rimosso tutti gli utenti dal database');
 });
 
 

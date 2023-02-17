@@ -29,19 +29,6 @@ describe('GET /api/v1/user tests', () => {
 
   //no token tests
 
-  /*test('GET /api/v1/user/findOne/:username should respond with a user and code 200', async () => {
-    return request(app)
-      .get('/api/v1/user/findOne/john')
-      .expect('Content-Type', /json/)
-      .expect(200, [
-        {
-          self: '/api/v1/user/1212',
-          username: 'john',
-          mail: 'john@gmail.com',
-        }
-      ]);
-  });*/
-
   test('POST /api/v1/user/signUp returns 409 if someone is already logged with this credentials', async () => {
     expect.assertions(1);
     const response4 = await request(app).post('/api/v1/user/signUp').send({ mail: 'pippo@gmail.com', username: 'pippo', password: 'password', passwordSupp: 'password' });

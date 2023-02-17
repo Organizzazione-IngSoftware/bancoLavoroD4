@@ -55,7 +55,7 @@ function trovaUtente() {
     const ul = document.getElementById('userList');
     const name = document.getElementById('userSearchUsername').value;
     ul.textContent = '';
-    fetch('../api/v1/user/findOne/' + name, {
+    fetch('../api/v1/user/find/' + name, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -99,25 +99,6 @@ function changePrivacy() {
     .catch( error => console.error(error) );
 };
 
-function eliminaUtenti() {
-    fetch('../api/v1/user/deleteAll', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': loggedUser.token
-        },
-    })
-    .then((res) => {
-        if(!loggedUser.token)
-            document.getElementById('feedbackDelete').textContent = "non autorizzato";
-        else
-        document.getElementById('feedbackDelete').textContent = "azione eseguita";
-        console.log(res);
-        return;
-    })
-    .catch( error => console.error(error) );
-}
-
 function donazione() {
     fetch('../api/v1/user/donation', {
         method: 'GET',
@@ -142,35 +123,6 @@ function donazione() {
 
 
 //Funzioni dei film
-
-function putMovie() {
-    var titolo = document.getElementById("movieTitolo").value;
-    var regista = document.getElementById("movieRegista").value;
-    var etaCons = document.getElementById("movieEtaCons").value;
-    var copertina = document.getElementById("movieCopertina").value;
-    var durata = document.getElementById("movieDurata").value;
-    var generi = (document.getElementById("movieGeneri").value).split();
-    var piattaforme = (document.getElementById("moviePiattaforme").value).split();
-    fetch('../api/v1/movie/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': loggedUser.token
-        },
-        body: JSON.stringify( { user: loggedUser.self, titolo: titolo, regista: regista, etaCons: etaCons, copertina: copertina, durata: durata, generi: generi, piattaforme: piattaforme } ),
-    })
-    .then((res) => {
-        if(! loggedUser.email) document.getElementById("movie").textContent = "non autorizzato";
-        else if(res.status == 409) document.getElementById("movie").textContent = "film già esistente";
-        else {
-            document.getElementById("movie").textContent = "ho aggiunto il film al database";
-            trovaTuttiFilm();
-        }
-        console.log(res);
-        return;
-    })
-    .catch( error => console.error(error) );
-};
 
 function trovaTuttiFilm() {
     const ul = document.getElementById('movies');
@@ -200,31 +152,6 @@ function trovaTuttiFilm() {
     .catch( error => console.error(error) );
 };
 trovaTuttiFilm();
-
-function eliminaFilm() {
-    fetch('../api/v1/movie/deleteAll', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': loggedUser.token
-        },
-    })
-    .then((res) => {
-        if(!loggedUser.token)
-            document.getElementById('feedbackDeleteMovie').textContent = "non autorizzato";
-        else {
-            document.getElementById('feedbackDeleteMovie').textContent = "azione eseguita";
-            const ul1 = document.getElementById('movies');
-            const ul2 = document.getElementById('moviesTR');
-            const ul3 = document.getElementById('globale');
-            ul1.textContent = '';
-            ul2.textContent = '';
-            ul3.textContent = '';
-            console.log(res);
-        }
-    })
-    .catch( error => console.error(error) );
-};
 
 function trovaFilmTitoloRegista() {
     const ul = document.getElementById('moviesTR');
@@ -259,35 +186,6 @@ function trovaFilmTitoloRegista() {
 
 //Funzioni delle serie
 
-function putSerie() {
-    var titolo = document.getElementById("serieTitolo").value;
-    var regista = document.getElementById("serieRegista").value;
-    var etaCons = document.getElementById("serieEtaCons").value;
-    var copertina = document.getElementById("serieCopertina").value;
-    var generi = (document.getElementById("serieGeneri").value).split();
-    var piattaforme = (document.getElementById("seriePiattaforme").value).split();
-    fetch('../api/v1/serie/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': loggedUser.token
-        },
-        body: JSON.stringify( { user: loggedUser.self, titolo: titolo, regista: regista, etaCons: etaCons, copertina: copertina, generi: generi, piattaforme: piattaforme } ),
-    })
-    .then((res) => {
-        if(! loggedUser.email) document.getElementById("serie").textContent = "non autorizzato";
-        else if(res.status == 409) document.getElementById("serie").textContent = "serie già esistente";
-        else {
-            document.getElementById("serie").textContent = "ho aggiunto il serie al database";
-            trovaTuttiSerie();
-        }
-        console.log(res);
-        return;
-    })
-    .catch( error => console.error(error) );
-    trovaTuttiSerie();
-};
-
 function trovaTuttiSerie() {
     const ul = document.getElementById('series');
     ul.textContent = '';
@@ -316,31 +214,6 @@ function trovaTuttiSerie() {
     .catch( error => console.error(error) );
 };
 trovaTuttiSerie();
-
-function eliminaSerie() {
-    fetch('../api/v1/serie/deleteAll', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': loggedUser.token
-        },
-    })
-    .then((res) => {
-        if(!loggedUser.token)
-            document.getElementById('feedbackDeleteSerie').textContent = "non autorizzato";
-        else {
-            document.getElementById('feedbackDeleteSerie').textContent = "azione eseguita";
-            const ul1 = document.getElementById('series');
-            const ul2 = document.getElementById('seriesTR');
-            const ul3 = document.getElementById('globale');
-            ul1.textContent = '';
-            ul2.textContent = '';
-            ul3.textContent = '';
-            console.log(res);
-        }
-    })
-    .catch( error => console.error(error) );
-};
 
 function trovaSerieTitoloRegista() {
     const ul = document.getElementById('seriesTR');

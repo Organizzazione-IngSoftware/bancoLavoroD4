@@ -52,83 +52,6 @@
 
 
 
-        "/movie/create": {
-            "post": {
-                "tags": ["movie"],
-                "summary": "Insert a movie in the database",
-                "parameters": [
-                    {
-                        "name": "titolo",
-                        "in": "body",
-                        "description": "The title of the movie",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "regista",
-                        "in": "body",
-                        "description": "Name and surname of the movie's regist",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "etaCons",
-                        "in": "body",
-                        "description": "The recommended age to watch the movie",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "copertina",
-                        "in": "body",
-                        "description": "A pic that represents the movie",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "durata",
-                        "in": "body",
-                        "description": "How long the movie lasts, in minutes",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "generi",
-                        "in": "body",
-                        "description": "A list of the genres of the movie",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "piattaforme",
-                        "in": "body",
-                        "description": "Where you can watch the movie: Netflix, Prime Video ecc...",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "The movie has bbeen inserted into the database"
-                    },
-                    "409": {
-                        "description": "This title already exists in the database"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
-                    }
-                }
-            }
-        },
-
-
-
         "/movie/getAll": {
             "get": {
                 "tags": ["movie"],
@@ -139,23 +62,6 @@
                         "schema": {
                             "$ref": "#/definitions/miniaturaMovie"
                         }
-                    }
-                }
-            }
-        },
-
-
-
-        "/movie/deleteAll": {
-            "delete": {
-                "tags": ["movie"],
-                "summary": "Delete all movies from the database",
-                "responses": {
-                    "204": {
-                        "description": "All the movies has been deleted"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
                     }
                 }
             }
@@ -188,40 +94,6 @@
 
 
 
-        "/movie/deleteOne": {
-            "delete": {
-                "tags": ["movie"],
-                "summary": "delete a movie with a specific title or a specific regist",
-                "parameters": [
-                    {
-                        "name": "titolo",
-                        "in": "header",
-                        "description": "The title of the movie",
-                        "type": "string"
-                    },
-                    {
-                        "name": "regista",
-                        "in": "header",
-                        "description": "The regist of the movie",
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "The movie have been deleted from the database"
-                    },
-                    "404": {
-                        "description": "The movie you want to delete doesn't exists"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
-                    }
-                }
-            }
-        },
-
-
-
         "/movie": {
             "get": {
                 "tags": ["movie"],
@@ -247,86 +119,6 @@
 
 
 
-        "/serie/create": {
-            "post": {
-                "tags": ["serie"],
-                "summary": "Insert a serie in the database",
-                "parameters": [
-                    {
-                        "name": "titolo",
-                        "in": "body",
-                        "description": "The title of the serie",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "regista",
-                        "in": "body",
-                        "description": "Name and surname of the serie's regist",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "etaCons",
-                        "in": "body",
-                        "description": "The recommended age to watch the serie",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "copertina",
-                        "in": "body",
-                        "description": "A pic that represents the serie",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "stagioni",
-                        "in": "body",
-                        "description": "The details of the seasons",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "generi",
-                        "in": "body",
-                        "description": "A list of the genres of the serie",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "piattaforme",
-                        "in": "body",
-                        "description": "Where you can watch the serie: Netflix, Prime Video ecc...",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "The serie has bbeen inserted into the database"
-                    },
-                    "409": {
-                        "description": "This element already exists in the database"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
-                    }
-                }
-            }
-        },
-
-
-
         "/serie/getAll": {
             "get": {
                 "tags": ["serie"],
@@ -337,23 +129,6 @@
                         "schema": {
                             "$ref": "#/definitions/miniaturaSerie"
                         }
-                    }
-                }
-            }
-        },
-
-
-
-        "/serie/deleteAll": {
-            "delete": {
-                "tags": ["serie"],
-                "summary": "Delete all series from the database",
-                "responses": {
-                    "204": {
-                        "description": "All the series has been deleted"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
                     }
                 }
             }
@@ -379,40 +154,6 @@
                         "schema": {
                             "$ref": "#/definitions/miniaturaSerie"
                         }
-                    }
-                }
-            }
-        },
-
-
-
-        "/serie/deleteOne": {
-            "delete": {
-                "tags": ["serie"],
-                "summary": "delete a serie with a specific title or a specific regist",
-                "parameters": [
-                    {
-                        "name": "titolo",
-                        "in": "header",
-                        "description": "The title of the serie",
-                        "type": "string"
-                    },
-                    {
-                        "name": "regista",
-                        "in": "header",
-                        "description": "The regist of the serie",
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "The serie have been deleted from the database"
-                    },
-                    "404": {
-                        "description": "The serie you want to delete doesn't exists"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
                     }
                 }
             }
@@ -495,7 +236,7 @@
 
 
 
-        "/user/findOne": {
+        "/user/find": {
             "get": {
                 "tags": ["user"],
                 "summary": "Get a specific user passing the username",
@@ -550,23 +291,6 @@
                     },
                     "201": {
                         "description": "I changed the privacy attribute of the user"
-                    },
-                    "401": {
-                        "description": "You are not authorized"
-                    }
-                }
-            }
-        },
-
-
-
-        "/user/deleteAll": {
-            "delete": {
-                "tags": ["user"],
-                "summary": "Delete all the users",
-                "responses": {
-                    "204": {
-                        "description": "I deleted all the users succesfully"
                     },
                     "401": {
                         "description": "You are not authorized"
@@ -766,7 +490,7 @@
                     "type": "string"
                 },
                 "valutazione": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },
@@ -830,7 +554,7 @@
                     "type": "string"
                 },
                 "valutazione": {
-                    "type": "integer"
+                    "type": "number"
                 }
             }
         },
@@ -873,7 +597,10 @@
                 "stagioni": {
                     "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                 }
             }
@@ -891,7 +618,7 @@
                     "type": "string"
                 },
                 "isPrivate": {
-                    "type": "string"
+                    "type": "bool"
                 }            
             }
         },
